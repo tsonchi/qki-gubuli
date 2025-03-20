@@ -74,15 +74,17 @@ nav {
     justify-content: center;
     gap: 20px;
     padding: 20px;
+    
 }
 .hotel-card {
-    background: white;
+    color:white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 15px;
     text-align: center;
     width: 300px;
     transition: transform 0.3s ease;
+    background-color: #2C2638;
 }
 .hotel-card:hover {
     transform: scale(1.05);
