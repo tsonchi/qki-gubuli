@@ -9,7 +9,7 @@
     box-sizing: border-box;
 }
 body {
-    background-image: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(images/pexels-francesco-ungaro-1525041.jpg);
+    background-image: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(images/image.png);
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
@@ -24,7 +24,7 @@ header {
     position: fixed; 
     top: 0;
     left: 0;
-    background-color: rgba(60, 70, 119, 0.7); 
+    background-color: rgba(59, 62, 79, 0.7); 
     padding: 10px 0;
     backdrop-filter: blur(2px); 
 }

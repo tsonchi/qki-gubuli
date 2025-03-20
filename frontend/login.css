@@ -1,0 +1,206 @@
+
+.poppins-medium {
+    font-family: "Poppins", sans-serif;
+    font-style: normal;
+}
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+body {
+    background-image: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(images/image.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;   
+    overflow-x: hidden; 
+    margin: 0;
+}
+header {
+    z-index: 1000;
+    width: 100%; 
+    position: fixed; 
+    top: 0;
+    left: 0;
+    background-color: rgba(36, 43, 77, 0.7); 
+    padding: 10px 0;
+    backdrop-filter: blur(2px); 
+}
+#title {
+    font-weight: 900;
+    font-size: 2em;
+    margin-left: 2em;
+    color: white;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.nav {
+    list-style-type: none;
+    display: flex; 
+    padding: 0;
+    margin: 0;
+    margin-right: 3em;
+}
+
+.nav a {
+    text-decoration: none;
+    color: white;
+    padding: 15px 20px;
+    display: inline-block; 
+}
+
+.nav a:hover {
+    background-color: rgb(18, 17, 17);
+}
+.nav i{
+    color: white;
+   
+}
+.contact {
+    position: relative;
+    margin-top: 4em;
+    padding: 50px 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.contact .content {
+    max-width: 800px;
+    text-align: center;
+}
+
+.contact .content h2 {
+    font-size: 36px;
+    color: #fff;
+}
+
+.contact .content p {
+    font-weight: 300;
+    color: #fff;
+}
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+textarea:focus {
+    border-color: #007bff; 
+    outline: none;
+}
+.contactForm {
+    margin-top: 2em;
+    width: 50%;
+    padding: 40px;
+    background: #2C2638;
+}
+
+.contactForm h3 {
+    font-size: 36px;
+    color: #fff; 
+    font-weight: 400;
+}
+.contactForm .inputBox input,
+.contactForm .inputBox textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin: 10px 0;
+    border: 1px solid #5a5167;
+    outline: none;
+    resize: none;
+    background: #211b2d;
+    color: #fff;
+    border-radius: 6px;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+
+}
+
+.contactForm .inputBox span {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #b3a7c7;
+    transition: 0.3s;
+    pointer-events: none;
+}
+
+.contactForm .inputBox input:focus ~ span,
+.contactForm .inputBox input:valid ~ span,
+.contactForm .inputBox textarea:focus ~ span,
+.contactForm .inputBox textarea:valid ~ span {
+    top: -0.4em;
+    left: 10px;
+    font-size: 12px;
+    color: #d1c1e0;
+}
+
+.contactForm .inputBox input:focus,
+.contactForm .inputBox textarea:focus {
+    border-color: #7c6a97; 
+    background: #2c2638; 
+    
+}
+.contactForm .inputBox {
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.contactForm .inputBox input[type="submit"] {
+    margin-top: 1em;
+    width: 100%;
+    background: #8462D4;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 18px;
+}
+.contactForm .inputBox input[type="submit"]:hover {
+    background: #6e4fb9; 
+}
+
+.login {
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    gap: 1em; 
+    margin-top: 2em;
+    margin-right: 11em; 
+    margin-bottom: 2em;
+}
+
+#logtxt {
+    white-space: nowrap;
+    color: #ffffff96; 
+}
+
+.contactForm a {
+    color: #d15be9;
+    text-decoration: underline;
+}
+.contactForm a:hover {
+    color: #d15be9c2;
+}
