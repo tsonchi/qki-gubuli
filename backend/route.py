@@ -1,13 +1,13 @@
 from flask import Flask, render_template, url_for, flash, redirect, request
 from __init__ import app, DB, bcrypt
 from Forms import RegistrationForm, LoginForm
-from Models import User, Post
+from Models import User
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route('/')
 @app.route('/home')
 def homepage():
-    return render_template('inedx.html')
+    return render_template('index.html')
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -44,9 +44,3 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('homepage'))
-
-
-@app.route("/account")
-@login_required
-def account():
-    return render_template('account.html')
