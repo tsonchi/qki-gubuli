@@ -1,4 +1,5 @@
 from flask_login import UserMixin
+from datetime import datetime
 from main import DB,login_manager
 
 @login_manager.user_loader
@@ -13,3 +14,12 @@ class User(UserMixin,DB.Model):
     
     def __repr__(self):
         return f"User('{self.username}', '{self.email}')"
+    
+class Posts(DB.Model):
+    id = DB.Column(DB.Integer,primary_key=True)
+    title = DB.Column(DB.String(100),nullable=False)
+    content = DB.Column(DB.Text,nullable=False)
+    date_posted = DB.Column(DB.DateTime,nullable=False,default=datetime.utcnow)
+    
+    def __repr__(self):
+        return f"Posts('{self.title}', '{self.date_posted}')"
