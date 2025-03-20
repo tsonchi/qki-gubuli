@@ -43,7 +43,6 @@ class RegistrationForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField('Email',validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
 
@@ -87,6 +86,7 @@ def logout():
 @app.route("/search")
 def search():
     return render_template('input.html')
+
 
 from flask_login import UserMixin
 
