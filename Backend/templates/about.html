@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="static/css/style1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
@@ -16,12 +16,16 @@
         <nav>
             <h1 id = "title">Saitche</h1>
             <ul class="nav">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/about">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
                 <li><a href="#">Service</a></li>
-                <a href="signup.html"><i class="fa-solid fa-user"></i></a>
-                
+                {% if current_user.is_authenticated %}
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <a href="/register">Sign up<i class="fa-solid fa-user"></i></a>
+                    <a href="/login">Log in<i class="fa-solid fa-user"></i></a>
+                {% endif %}                
             </ul>
         </nav>
     </header>
@@ -35,27 +39,27 @@
     
     <div class="team-container">
         <div class="team-member">
-            <img src="ivcho.jpg" alt="Ivcho">
+            <img src="/static/images/ivcho.jpg" alt="Ivcho">
             <h3>Ivcho</h3>
             <p>Leader & Spokesperson</p>
         </div>
         <div class="team-member">
-            <img src="images/dancho.jpg" alt="Dancho">
+            <img src="static/images/dancho.jpg" alt="Dancho">
             <h3>Dancho</h3>
             <p>Strategist & Problem Solver</p>
         </div>
         <div class="team-member">
-            <img src="ulian.jpg" alt="Ulian">
+            <img src="static/images/ulian.jpg" alt="Ulian">
             <h3>Ulian</h3>
             <p>Creative Innovator</p>
         </div>
         <div class="team-member">
-            <img src="pecata.jpg" alt="Pecata">
+            <img src="static/images/pecata.jpg" alt="Pecata">
             <h3>Pecata</h3>
             <p>Operations & Efficiency</p>
         </div>
         <div class="team-member">
-            <img src="deo.jpg" alt="Deo">
+            <img src="static/images/deo.jpg" alt="Deo">
             <h3>Deo</h3>
             <p>Ambition & Vision</p>
         </div>

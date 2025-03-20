@@ -17,11 +17,15 @@
             <h1 id = "title">Saitche</h1>
             <ul class="nav">
                 <li><a href="/home">Home</a></li>
-                <li><a href="about.html">About</a></li>
+                <li><a href="/about">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
                 <li><a href="#">Service</a></li>
-                <a href="/register"><i class="fa-solid fa-user"></i></a>
-            </ul>
+                {% if current_user.is_authenticated %}
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <a href="/register">Sign up<i class="fa-solid fa-user"></i></a>
+                    <a href="/login">Log in<i class="fa-solid fa-user"></i></a>
+                {% endif %}            </ul>
         </nav>
     </header>
     <section class="hotel-gallery">
