@@ -208,6 +208,7 @@ textarea:valid {
 .contactForm a:hover {
     color: #d15be9c2;
 }
+<<<<<<< HEAD
 .mapForm {
     height: 60em;
     margin-top: 2em;
@@ -322,3 +323,8 @@ iframe{
     background: #e35248;
     transition: 1s;
 }
+=======
+.inputBox{
+    color:#ffffff96;
+};
+>>>>>>> be1a14ee3f00d9f3e0a72defcb04644634b3c9cf
