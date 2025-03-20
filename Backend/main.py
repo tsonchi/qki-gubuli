@@ -92,6 +92,10 @@ def logout():
 def about_page():
     return render_template('about.html')
 
+@app.route('/contact')
+def contact_page():
+    return render_template('contact.html')
+
 @app.route("/search")
 def search():
     return render_template('input.html')
