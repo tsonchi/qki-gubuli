@@ -14,7 +14,7 @@
 body {
     width: 100%;
     min-height: 100vh;
-    background-image: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(/static/images/city.jpg);
+    background-image: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url("/static/images/image2.png");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -85,7 +85,7 @@ nav {
 }
 .nav i{
     color: white;
-   
+   margin-left: 1em;
 }
 p {
     color: #fff;
