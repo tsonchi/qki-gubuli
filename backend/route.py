@@ -45,3 +45,7 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('homepage'))
+
+@app.route("/search")
+def search():
+    return app.send_static_file('input.html')
