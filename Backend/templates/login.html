@@ -17,8 +17,8 @@
             <ul class="nav">
                 <li><a href="{{ url_for('homepage') }}">Home</a></li>
                 <li><a href="/about">About</a></li>
-                <li><a href="{{ url_for('search') }}">Contact</a></li>
-                <li><a href="#">Service</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/search">Service</a></li>
                 {% if current_user.is_authenticated %}
                     <li><a href="/logout">Logout</a></li>
                 {% else %}
