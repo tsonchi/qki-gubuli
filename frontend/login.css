@@ -107,6 +107,10 @@ textarea:focus {
     border-color: #007bff; 
     outline: none;
 }
+textarea:valid {
+    border-color: #007bff; 
+    outline: none;
+}
 .contactForm {
     margin-top: 2em;
     width: 50%;
@@ -162,6 +166,12 @@ textarea:focus {
     background: #2c2638; 
     
 }
+.inputBox input:not(:placeholder-shown) ~ span {
+    top: -0.4em;
+    left: 10px;
+    font-size: 12px;
+    color: #d1c1e0;
+}
 .contactForm .inputBox {
     position: relative;
     width: 100%;
@@ -188,7 +198,6 @@ textarea:focus {
     justify-content: center; 
     gap: 1em; 
     margin-top: 2em;
-    margin-right: 11em; 
     margin-bottom: 2em;
 }
 
