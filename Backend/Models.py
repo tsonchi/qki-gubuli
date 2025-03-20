@@ -1,6 +1,5 @@
-from datetime import datetime
 from flask_login import UserMixin
-from __init__ import DB,login_manager
+from main import DB,login_manager
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -14,4 +13,3 @@ class User(UserMixin,DB.Model):
     
     def __repr__(self):
         return f"User('{self.username}', '{self.email}')"
-    
