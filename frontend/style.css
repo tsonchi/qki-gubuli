@@ -5,7 +5,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Poppins', sans-serif;
+    
     box-sizing: border-box;
 }
 body {
@@ -67,6 +67,7 @@ nav {
    
 }
 
+
 .hotel-gallery {
     margin-top: 9em;
     display: flex;
@@ -106,4 +107,27 @@ button {
 }
 button:hover {
     background: #6e4fb9;
+}
+#Info {
+    
+    font-family: "Lucida Handwriting", cursive;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    padding: 20px;
+    border-radius: 100px;
+    width: 90%;
+    max-width: 1000px;
+    margin: 70px auto 30px;
+}
+#Obesnenie{
+    
+    font-size: 17px;
+    text-align: center;
+    padding: 20px;
+    border-radius: 30px;
+    width: 90%;
+    max-width: 600px;
+    margin: -40px auto 30px;
+    font-weight: 100;
 }
