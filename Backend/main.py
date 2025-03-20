@@ -83,6 +83,10 @@ def logout():
     logout_user()
     return redirect(url_for('homepage'))
 
+@app.route('/about')
+def about_page():
+    return render_template('about.html')
+
 @app.route("/search")
 def search():
     return render_template('input.html')
