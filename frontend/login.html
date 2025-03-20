@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
+    <title>Login</title>
     <link rel="stylesheet" href="login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
@@ -13,9 +12,8 @@
 </head>
 <body>
     <header class="header">
-
         <nav>
-            <h1 id = "title">Saitche</h1>
+            <h1 id="title">Saitche</h1>
             <ul class="nav">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="#">About</a></li>
@@ -28,32 +26,28 @@
     <section class="contact">
         <div class="content">
             <h2>Log in</h2>
-            <p>Contact us if you have trouble loging in</p>
+            <p>Contact us if you have trouble logging in</p>
         </div>
-
-            <div class="contactForm">
-                <form>
-                    <h3>Log in to account</h3>
-                    <div class="login">
-                        <p id="logtxt">Don't have an account?</p>
-                        <a href="signup.html">Sign up</a>
-                    </div>
-                    <div class="inputBox">
-                        <input type="text" id="username" required>
-                        <span>Username/email</span>
-                    </div>
-                    <div class="inputBox">
-                        <input type="password" id="password" required>
-                        <span>Password</span>
-                    </div>
-                    <div class="inputBox">
-                        <input type="submit" value="Log in">
-                    </div>
-                </form>
-            </div>
+        <div class="contactForm">
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <h3>Log in to account</h3>
+                <div class="login">
+                    <p id="logtxt">Don't have an account?</p>
+                    <a href="signup.html">Sign up</a>
+                </div>
+                <div class="inputBox">
+                    {{ form.email(class_='form-control', placeholder='Email') }}
+                </div>
+                <div class="inputBox">
+                    {{ form.password(class_='form-control', placeholder='Password') }}
+                </div>
+                <div class="inputBox">
+                    {{ form.submit(class_='btn btn-primary', value='Log in') }}
+                </div>
+            </form>
         </div>
     </section>
     <script src="index.js"></script>
-
 </body>
 </html>
