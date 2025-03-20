@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://kit.fontawesome.com/c19c712794.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <header class="header">
+
+        <nav>
+            <h1 id = "title">Saitche</h1>
+            <ul class="nav">
+                <li><a href="/home">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#">Service</a></li>
+                <a href="/register"><i class="fa-solid fa-user"></i></a>
+
+            </ul>
+        </nav>
+    </header>
+    <section class="contact">
+        <div class="content">
+            <h2>Choose your vacation!</h2>
+            <p>Contact us if you are having any trouble</p>
+        </div>
+
+            <div class="mapForm">
+                <form>
+                    <div class="inputBox">
+                        <input type="text" id="destination" required>
+                        <span>Destination</span>
+                    </div>
+                    <button class = "hero-btn" onclick="updateMap()" >
+                        Search <i id ="ikonka" class="fa-solid fa-map-location-dot"></i>
+                    </button>                    
+                    <iframe id="mapFrame" 
+                    width="600" 
+                    height="450" 
+                    class="mt-4 w-full rounded-lg shadow-lg"
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+                    <div class="inputBox">
+                        <input type="text" id="Rating" required>
+                        <span>Rating</span>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" id="time" required>
+                        <span>Time of your stay</span>
+                    </div>
+                    <div class="inputBox">
+                        <input type="submit" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script>
+        function updateMap() {
+            let destination = document.getElementById("destination").value;
+            let mapFrame = document.getElementById("mapFrame");
+        
+            if (destination.trim() !== "") {
+                let encodedDestination = encodeURIComponent(destination);
+                let mapUrl = `https://www.google.com/maps?q=${encodedDestination}&output=embed`;
+                mapFrame.src = mapUrl;
+            }
+        }
+        </script>
+    
+</body>
+</html>

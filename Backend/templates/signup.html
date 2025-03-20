@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="static/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://kit.fontawesome.com/c19c712794.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header class="header">
+        <nav>
+            <h1 id="title">Saitche</h1>
+            <ul class="nav">
+                <li><a href="/home">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#">Service</a></li>
+                <a href="/login"><i class="fa-solid fa-user"></i></a>
+            </ul>
+        </nav>
+    </header>
+    <section class="contact">
+        <div class="content">
+            <h2>Sign up</h2>
+            <p>Here you can sign up or log in.</p>
+        </div>
+        <div class="contactForm">
+            <!-- Make sure the form's action is set to the correct endpoint and method is POST -->
+            <form method="POST" action="{{ url_for('register') }}">
+                {{ form.hidden_tag() }} <!-- This will render the CSRF token -->
+                <h3>Create an account</h3>
+                <div class="login">
+                    <p id="logtxt">Already have an account?</p>
+                    <a href="/login">Log in</a>
+                </div>
+                <div class="inputBox">
+                    <!-- Use Flask form's field names -->
+                    {{ form.username.label }}
+                    {{ form.username(class="form-control") }}
+                    <span></span>
+                </div>
+                <div class="inputBox">
+                    {{ form.email.label }}
+                    {{ form.email(class="form-control") }}
+                    <span></span>
+                </div>
+                <div class="inputBox">
+                    {{ form.password.label }}
+                    {{ form.password(class="form-control") }}
+                    <span></span>
+                </div>
+                <div class="inputBox">
+                    {{ form.confirm_password.label }}
+                    {{ form.confirm_password(class="form-control") }}
+                    <span></span>
+                </div>
+                <div class="inputBox">
+                    {{ form.submit(class="submit-button") }}
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+</html>
+
