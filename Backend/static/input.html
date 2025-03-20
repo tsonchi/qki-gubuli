@@ -37,8 +37,18 @@
                         <input type="text" id="destination" required>
                         <span>Destination</span>
                     </div>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3002792.594446323!2d22.89681389035086!3d42.69494030559465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a8fec1c85bf089%3A0xa01269bf4c10!2sBulgaria!5e0!3m2!1sen!2sbg!4v1742486122281!5m2!1sen!2sbg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-
+                    <button class = "hero-btn" onclick="updateMap()" >
+                        Search <i id ="ikonka" class="fa-solid fa-map-location-dot"></i>
+                    </button>                    
+                    <iframe id="mapFrame" 
+                    width="600" 
+                    height="450" 
+                    class="mt-4 w-full rounded-lg shadow-lg"
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
                     <div class="inputBox">
                         <input type="text" id="Rating" required>
                         <span>Rating</span>
@@ -55,16 +65,17 @@
         </div>
     </section>
     <script>
-        document.getElementById("destination").addEventListener("input", function () {
-            let destination = this.value.trim();
-            let mapLink = document.getElementById("mapLink");
-            if (destination) {
-                mapLink.href = `https://www.google.com/maps/search/?q=${encodeURIComponent(destination)}`;
-            } else {
-                mapLink.href = "#";
+        function updateMap() {
+            let destination = document.getElementById("destination").value;
+            let mapFrame = document.getElementById("mapFrame");
+        
+            if (destination.trim() !== "") {
+                let encodedDestination = encodeURIComponent(destination);
+                let mapUrl = `https://www.google.com/maps?q=${encodedDestination}&output=embed`;
+                mapFrame.src = mapUrl;
             }
-        });
-    </script>
+        }
+        </script>
     
 </body>
 </html>
