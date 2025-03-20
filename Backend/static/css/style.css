@@ -1,0 +1,107 @@
+.poppins-medium {
+    font-family: "Poppins", sans-serif;
+    font-style: normal;
+}
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+body {
+    background-image: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(images/image.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;   
+    overflow-x: hidden; 
+    margin: 0;
+}
+
+header {
+    z-index: 1000;
+    width: 100%; 
+    position: fixed; 
+    top: 0;
+    left: 0;
+    background-color: rgba(59, 62, 79, 0.7); 
+    padding: 10px 0;
+    backdrop-filter: blur(2px); 
+}
+#title {
+    font-weight: 900;
+    font-size: 2em;
+    margin-left: 2em;
+    color: white;
+}
+
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.nav {
+    list-style-type: none;
+    display: flex; 
+    padding: 0;
+    margin: 0;
+    margin-right: 3em;
+}
+
+.nav a {
+    text-decoration: none;
+    color: white;
+    padding: 15px 20px;
+    display: inline-block; 
+}
+
+.nav a:hover {
+    background-color: rgb(18, 17, 17);
+}
+.nav i{
+    color: white;
+   
+}
+
+.hotel-gallery {
+    margin-top: 9em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+.hotel-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    text-align: center;
+    width: 300px;
+    transition: transform 0.3s ease;
+}
+.hotel-card:hover {
+    transform: scale(1.05);
+}
+.hotel-card img {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+}
+button {
+    background: #8462D4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+button:hover {
+    background: #6e4fb9;
+}

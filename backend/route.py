@@ -7,7 +7,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route('/')
 @app.route('/home')
 def homepage():
-    return render_template('index.html')
+    return app.send_static_file('index.html')
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -19,9 +19,10 @@ def register():
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         DB.session.add(user)
         DB.session.commit()
-        flash('Your account has been created')
+        flash('Your account has been created', 'success')
         return redirect(url_for('login'))
-    return render_template('signup.html')
+    return app.send_static_file('signup.html')
+
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -37,7 +38,7 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
-    return render_template('login.html')
+    return app.send_static_file('login.html')
 
 
 @app.route("/logout")
