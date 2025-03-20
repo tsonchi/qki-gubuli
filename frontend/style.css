@@ -66,7 +66,7 @@ nav {
     color: white;
    
 }
-<<<<<<< Updated upstream
+
 
 
 .hotel-gallery {
@@ -107,8 +107,7 @@ button {
 button:hover {
     background: #6e4fb9;
 }
-=======
->>>>>>> Stashed changes
+
 #Info {
     
     font-family: "Lucida Handwriting", cursive;
@@ -131,4 +130,7 @@ button:hover {
     max-width: 600px;
     margin: -40px auto 30px;
     font-weight: 100;
+}
+#button{
+    
 }
