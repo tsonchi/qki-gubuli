@@ -9,7 +9,7 @@
     box-sizing: border-box;
 }
 body {
-    background-image: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)),url("static/images/City.jpg");
+    background-image: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)),url("/static/images/City.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
@@ -138,7 +138,7 @@ button:hover {
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap; 
-    max-width: 90%;
+    max-width: 100%;
 }
 
 
