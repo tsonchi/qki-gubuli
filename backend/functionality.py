@@ -7,7 +7,7 @@ from geopy.geocoders import Nominatim
 app = FastAPI()
 
 OVERPASS_URL = "http://overpass-api.de/api/interpreter"
-SERPAPI_KEY = "2437bf9576ddfa0350c5b427e4569fee7a554e598df2d6323780e78cc63f5c8d"  # Замени с реален SerpAPI ключ
+SERPAPI_KEY = "30c90bb56b6894a50322c741e9583a7d00de9911eb6e2d70555ee14c98f54054"  # Замени с реален SerpAPI ключ
 
 def get_coordinates(city: str):
     """Взима GPS координати за града чрез OpenStreetMap."""
