@@ -113,7 +113,6 @@ def plan_route():
         start_date = request.form.get("start_date")
         end_date = request.form.get("end_date")
 
-        # Debugging: Print values before making request
         print(f"📌 Sending request to FastAPI with: city={city}, start_date={start_date}, end_date={end_date}")
 
         try:
@@ -122,10 +121,10 @@ def plan_route():
                 "start_date": start_date,
                 "end_date": end_date
             })
-            response.raise_for_status()  # Ensure we get a valid response
+            response.raise_for_status()  
 
-            data = response.json()  # Get JSON data
-            print(f"Received response from FastAPI: {data}")  # Debugging
+            data = response.json()  
+            print(f"Received response from FastAPI: {data}")
 
             if "error" in data:
                 flash(data["error"], "danger")
@@ -133,7 +132,7 @@ def plan_route():
             
             print(f"🚀 Rendering data: {data['data']}")
 
-            return render_template("plan_route.html", data=data["data"])  # Send the whole response directly
+            return render_template("plan_route.html", data=data["data"]) 
 
         except requests.exceptions.RequestException as e:
             flash(f"An error occurred: {e}", "danger")
