@@ -7,11 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c19c712794.js" crossorigin="anonymous"></script>
-    <title>Saitche</title>
+    <title>easyTravel</title>
+    <link rel="icon" href="static/images/eztravels.png" type="image/png">
+
 </head>
 <body>
     <header class="header">
         <nav>
+            <h1 id="title">easyTravel</h1>
             <ul class="nav">
                 <li><a href="/home">Home</a></li>
                 <li><a href="/about">About</a></li>
@@ -20,51 +23,42 @@
                 {% if current_user.is_authenticated %}
                     <li><a href="/logout">Log out</a></li>
                 {% else %}
-                    <li><a href="/register">Sign up <i class="fa-solid fa-user"></i></a></li>
-                    <li><a href="/login">Log in <i class="fa-solid fa-user"></i></a></li>
+                    <a href="/register">Sign up <i class="fa-solid fa-user"></i></a>
+                    <a href="/login">Log in <i class="fa-solid fa-user"></i></a>
                 {% endif %}
             </ul>
         </nav>
     </header>
 
     <div class="container">
-        <div class="post-container">
-            {% for post in posts %}
-            <div class="post">
-                <div class="postheader">
-                    <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="User">
-                    <div class="post-user">
-                        <h3>{{ post.author.username if post.author else 'Anonymous' }}</h3>
-                        <p>{{ post.date_posted.strftime('%Y-%m-%d %H:%M') }}</p>
-                    </div>
-                </div>
-                <div class="postcontent">
-                    <p>{{ post.content }}</p>
-                    {% if post.image_file %}
-                    <img src="{{ url_for('static', filename='uploads/' + post.image_file) }}" alt="Post Image">
-                    {% endif %}
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-
+        <div class="post-container"></div>
+        <form method="POST" url = "/create_post" enctype="multipart/form-data">
+        <div class="drop-area" id="drop-area">
+            <p>Drag & Drop an image or click to select</p>
+            <input type="file" id="file-input" accept="image/*" hidden>
+        </div> 
+        <div class="image-preview" id="image-preview"></div>
+        
         <div class="post-form">
             {% if current_user.is_authenticated %}
-            <input type="text" id="post-text" placeholder="Write something..." />
+                <input type="text" id="post-text" placeholder="Write something..." />
             {% else %}
-            <input type="text" id="name-text" placeholder="Enter your name: " />
-            <input type="text" id="post-text" placeholder="Write something..." />
+                <input type="text" id="name-text" placeholder="Enter your name: " />
+                <input type="text" id="post-text" placeholder="Write something..." />
             {% endif %}
             <button id="create-post">Create a Post!</button>
         </div>
-    </div> <!-- Closing container div was missing -->
+    </div>
 
     <script>
-        document.getElementById("create-post").addEventListener("click", function() {
+        document.getElementById("create-post").addEventListener("click", async function() {
             let isAuthenticated = {{ current_user.is_authenticated | tojson }};
             let postText = document.getElementById("post-text").value.trim();
-            let nameText = isAuthenticated ? {{ current_user.username | tojson }} : document.getElementById("name-text").value.trim(); 
-            
+            let nameText = isAuthenticated ? "{{ current_user.username }}" : document.getElementById("name-text").value.trim(); 
+        
+            console.log("This is a post:", postText);
+            console.log("This is a name:", nameText);
+        
             if (!isAuthenticated && nameText === "") {
                 alert("Name cannot be empty!");
                 return;
@@ -73,31 +67,78 @@
                 alert("Post cannot be empty!");
                 return;
             }
-
-            let container = document.querySelector(".post-container");
-            let currentTime = new Date().toLocaleString();
-
-            let newPost = document.createElement("div");
-            newPost.classList.add("post");
-            newPost.innerHTML = `
-                <div class="postheader">
-                    <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="User">
-                    <div class="post-user">
-                        <h3>${nameText}</h3>
-                        <p>${currentTime}</p>
-                    </div>
-                </div>
-                <div class="postcontent">
-                    <p>${postText}</p>
-                </div>
-            `;
-
-            container.prepend(newPost);
-            document.getElementById("post-text").value = "";
-            if (!isAuthenticated) {
-                document.getElementById("name-text").value = "";
+        
+            let formData = new FormData();
+            formData.append("author", nameText);
+            formData.append("content", postText);
+        
+            // Check if an image is selected
+            let fileInput = document.getElementById("file-input");
+            if (fileInput.files.length > 0) {
+                formData.append("image", fileInput.files[0]);  // Append the file
+            }
+        
+            try {
+                let response = await fetch("/create_post", {
+                    method: "POST",
+                    body: formData
+                });
+        
+                console.log("This is a response:", response);
+        
+                if (response.ok) {
+                    location.reload();  // Refresh the page to show the new post
+                } else {
+                    alert("Error creating post!");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred while creating the post.");
             }
         });
+        
+        // Drag & Drop Image Handling
+        let dropArea = document.getElementById("drop-area");
+        let fileInput = document.getElementById("file-input");
+        let imagePreview = document.getElementById("image-preview");
+        
+        dropArea.addEventListener("click", () => fileInput.click());
+        fileInput.addEventListener("change", handleImageUpload);
+        
+        dropArea.addEventListener("dragover", (event) => {
+            event.preventDefault();
+            dropArea.classList.add("dragover");
+        });
+        
+        dropArea.addEventListener("dragleave", () => {
+            dropArea.classList.remove("dragover");
+        });
+        
+        dropArea.addEventListener("drop", (event) => {
+            event.preventDefault();
+            dropArea.classList.remove("dragover");
+        
+            let file = event.dataTransfer.files[0];
+            if (file && file.type.startsWith("image/")) {
+                displayImage(file);
+            }
+        });
+        
+        function handleImageUpload(event) {
+            let file = event.target.files[0];
+            if (file && file.type.startsWith("image/")) {
+                displayImage(file);
+            }
+        }
+        
+        function displayImage(file) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.innerHTML = `<img src="${e.target.result}" alt="Uploaded Image">`;
+            };
+            reader.readAsDataURL(file);
+        }
+        
     </script>
 </body>
 </html>

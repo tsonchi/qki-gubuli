@@ -27,14 +27,15 @@ header {
     background-color: rgba(59, 62, 79, 0.7); 
     padding: 10px 0;
     backdrop-filter: blur(2px); 
+    align-items: center; 
 }
+
 #title {
     font-weight: 900;
     font-size: 2em;
-    margin-left: 2em;
+    margin-left: 1em;
     color: white;
 }
-
 
 nav {
     display: flex;
@@ -60,6 +61,7 @@ nav {
 }
 
 .nav a:hover {
+    border-radius: 5px;
     background-color: rgb(18, 17, 17);
 }
 .nav i{

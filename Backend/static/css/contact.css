@@ -52,7 +52,7 @@ header {
 #title {
     font-weight: 900;
     font-size: 2em;
-    margin-left: 2em;
+    margin-left: 1em;
     color: white;
 }
 
@@ -82,6 +82,8 @@ nav {
 
 .nav a:hover {
     background-color: rgb(18, 17, 17);
+    border-radius: 5px;
+
 }
 .nav i{
     color: white;
@@ -202,6 +204,11 @@ p {
 .container .contactInfo .box .text h3 {
     color: #00bcd4;
 }
+.Ez{
 
+    height: 3em;
+    width: 5%;
+    border-radius: 5px;
+}
 
 

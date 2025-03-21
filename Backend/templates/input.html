@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c19c712794.js" crossorigin="anonymous"></script>
-    <title>Document</title>
+    <title>easyTravel</title>
+    <link rel="icon" href="static/images/eztravels.png" type="image/png">
+
 </head>
 <body>
     <header class="header">
 
         <nav>
-            <h1 id = "title">Saitche</h1>
+            <h1 id = "title">easyTravel</h1>
             <ul class="nav">
                 <li><a href="/home">Home</a></li>
                 <li><a href="/about">About</a></li>
@@ -35,7 +37,7 @@
         </div>
 
             <div class="mapForm">
-                <form>
+                <form action="{{ url_for('plan_route') }}" method="POST">
                     <div class="inputBox">
                         <input type="text" id="destination" required>
                         <span>Destination</span>
@@ -53,12 +55,12 @@
                     referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
                     <div class="inputBox">
-                        <input type="text" id="Rating" required>
-                        <span>Rating</span>
+                        <input type="text" id="start_date" name="start_date" required>
+                        <span>Start date</span>
                     </div>
                     <div class="inputBox">
-                        <input type="text" id="time" required>
-                        <span>Time of your stay</span>
+                        <input type="text" id="end-date" name="end_date" required>
+                        <span>End date</span>
                     </div>
                     <div class="inputBox">
                         <input type="submit" value="Submit">
