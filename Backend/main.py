@@ -16,9 +16,10 @@ bcrypt=Bcrypt(app)
 @app.route('/')
 @app.route('/home')
 def homepage():
-    return render_template('index.html')
+    return render_template('index.html',post=posts)
 
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import StringField, PasswordField, SubmitField, BooleanField,TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 
@@ -48,6 +49,7 @@ class LoginForm(FlaskForm):
     
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
+    image = FileField('Upload Image', validators=[FileRequired(),FileAllowed(['jpg','png','jpeg'])])
     content = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Post')
 
@@ -96,6 +98,10 @@ def about_page():
 def contact_page():
     return render_template('contact.html')
 
+@app.route('/create_post')
+def create_post():
+    return render_template('create_post.html')
+
 @app.route("/search")
 def search():
     return render_template('input.html')
@@ -117,6 +123,9 @@ def posts(post_id):
     post = Posts.query.get_or_404(post_id)
     return render_template('posts.html', title=post.title, post=post)
 
+
+@app.route('/Update_post/<int:post_id>', methods=['GET', 'POST'])
+@login_required
 def update_post(post_id):
     post = Posts.query.get_or_404(post_id)
     if post.author != current_user:
@@ -142,7 +151,7 @@ def delete_post(post_id):
         abort(403)
     DB.session.delete(post)
     DB.session.commit()
-    flash('Your post has been deleted!', 'success')
+    flash('Your post has been deleted!')
     return redirect(url_for('homepage'))
 
 from flask_login import UserMixin
@@ -166,6 +175,7 @@ class Posts(DB.Model):
     id = DB.Column(DB.Integer,primary_key=True)
     title = DB.Column(DB.String(100),nullable=False)
     content = DB.Column(DB.Text,nullable=False)
+    image_file = DB.Column(DB.String(20),nullable=False)
     date_posted = DB.Column(DB.DateTime,nullable=False,default=datetime.utcnow)
     user_id = DB.Column(DB.Integer, DB.ForeignKey('user.id'),nullable=False)
     
