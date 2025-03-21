@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c19c712794.js" crossorigin="anonymous"></script>
-    <title>Document</title>
+    <title>easyTravel</title>
+    <link rel="icon" href="static/images/eztravels.png" type="image/png">
+
 </head>
 <body>
     <header class="header">
-
         <nav>
-            <h1 id = "title">Saitche</h1>
+            <h1 id = "title">easyTravel</h1>
             <ul class="nav">
                 <li><a href="/home">Home</a></li>
                 <li><a href="/about">About</a></li>
@@ -28,56 +29,32 @@
             </ul>
         </nav>
     </header>
+
     <div id="Info">
-        <h1 id="Info">Begin your vacation easy and managable.</h1>
-        <p id="Obesnenie">,,Saitche"
-            helps people by easily organizing vacations and gatherings with family, friends, colleagues.</p>
-            <a href="/search" class="hero-btn">Visit Us To Know More</a>
-            <div id="reviews-container">
+        <h1 id="Info">Begin your vacation easy and manageable.</h1>
+        <p id="Obesnenie">,,Saitche" helps people by easily organizing vacations and gatherings with family, friends, colleagues.</p>
+        <a href="/search" class="hero-btn">Visit Us To Know More</a>
+
+        <!-- Display Reviews and Posts -->
+        <div id="reviews-container">
+            {% for post in posts %}
                 <div class="review-card">
-                    <p>"This site manages everything so easily! I can make good plans for a vacation with my family."</p>
+                    <p>"{{ post.content }}"</p>
                     <div class="reviewer-info">
-                       
                         <div>
-                            <h3 class="reviewer-name">Martin Domovchiev</h3>
-                            <p class="reviewer-role">Content creator</p>
+                            <h3 class="reviewer-name">{{ post.author.username if post.author else 'Anonymous' }}</h3>
+                            <p class="reviewer-role">{{ post.author.role if post.author else 'Unknown Role' }}</p>
                         </div>
                     </div>
                 </div>
-            
-                <div class="review-card">
-                    <p>"I found it hard before to make family reservations for a visit but now I don't have to worry anymore."</p>
-                    <div class="reviewer-info">
-                        
-                        <div>
-                            <h3 class="reviewer-name">John Smith</h3>
-                            <p class="reviewer-role">Traveler</p>
-                        </div>
-                    </div>
-                </div>
-                    
-                <div class="review-card">
-                    <p>"I really like to travel with friends and this website makes it so much fun! I enjoy posting my stories."</p>
-                    <div class="reviewer-info">
-                        
-                        <div>
-                            <h3 class="reviewer-name">Teodor Simeonov</h3>
-                            <p class="reviewer-role">Finance councelor</p>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <a href="/create_post" class="posts">See other reviews and posts!</a>
-                    
-                </div>
-                
-                
-               
-            </div>
-        <div class = "text-box">
-            <h1></h1>
+            {% else %}
+                <p>No reviews yet. Be the first to post!</p>
+            {% endfor %}
+        </div>
+        
+        <div>
+            <a href="/create_post" class="posts">See other reviews and posts!</a>
         </div>
     </div>
-        
 </body>
 </html>

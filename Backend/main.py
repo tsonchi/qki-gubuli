@@ -17,6 +17,7 @@ bcrypt=Bcrypt(app)
 @app.route('/')
 @app.route('/home')
 def homepage():
+    post=Posts.query.all()
     return render_template('index.html',post=posts)
 
 from flask_wtf import FlaskForm
@@ -141,12 +142,22 @@ def plan_route():
 @app.route("/create_post", methods=['GET', 'POST'])
 def create_post():
     form = PostForm()
+
     print(form.content)
     post = Posts(content=form.content.data, author=current_user)
     print(post.content)
     DB.session.add(post)
     DB.session.commit()
     flash('Your post has been created!')
+
+    if form.validate_on_submit():
+        post = Posts(title=form.title.data, content=form.content.data, author=current_user)
+        print(post.title,post.content)
+        DB.session.add(post)
+        DB.session.commit()
+        flash('Your post has been created!')
+        return redirect(url_for('homepage'))
+
     return render_template('create_post.html', title='New Post',form=form, legend='New Post')
 
 @app.route("/post/<int:post_id>")
