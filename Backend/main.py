@@ -16,7 +16,7 @@ bcrypt=Bcrypt(app)
 
 @app.route('/')
 @app.route('/home')
-def homepage():
+def home():
     post=Posts.query.all()
     return render_template('index.html',post=posts)
 
@@ -159,11 +159,15 @@ def create_post():
         DB.session.add(new_post)
         DB.session.commit()
         flash("Post created successfully!", "success")
+        print("Post created successfully!")
+        return redirect('/home')
+        
     except Exception as e:
         DB.session.rollback()
         flash("Error creating post: " + str(e), "danger")
+        print("Error creating post: " + str(e))
+        return redirect(url_for('home'))
 
-    return redirect(url_for("homepage"))
 
 @app.route("/post/<int:post_id>")
 def posts(post_id):

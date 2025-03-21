@@ -1,3 +1,4 @@
+@ -0,0 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,14 +8,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c19c712794.js" crossorigin="anonymous"></script>
-    <title>easyTravel</title>
-    <link rel="icon" href="static/images/eztravels.png" type="image/png">
-
+    <title>Saitche</title>
 </head>
 <body>
     <header class="header">
         <nav>
-            <h1 id="title">easyTravel</h1>
+            <h1 id="title">Saitche</h1>
             <ul class="nav">
                 <li><a href="/home">Home</a></li>
                 <li><a href="/about">About</a></li>
@@ -32,7 +31,7 @@
 
     <div class="container">
         <div class="post-container"></div>
-        <form method="POST" url = "/create_post" enctype="multipart/form-data">
+
         <div class="drop-area" id="drop-area">
             <p>Drag & Drop an image or click to select</p>
             <input type="file" id="file-input" accept="image/*" hidden>
@@ -41,23 +40,21 @@
         
         <div class="post-form">
             {% if current_user.is_authenticated %}
-                <input type="text" id="post-text" placeholder="Write something..." />
+            <input type="text" id="post-text" placeholder="Write something..." />
             {% else %}
-                <input type="text" id="name-text" placeholder="Enter your name: " />
-                <input type="text" id="post-text" placeholder="Write something..." />
+            <input type="text" id="name-text" placeholder="Enter your name: " />
+            <input type="text" id="post-text" placeholder="Write something..." />
+            {% endif %}
             <button id="create-post">Create a Post!</button>
         </div>
     </div>
 
     <script>
-        document.getElementById("create-post").addEventListener("click", async function() {
+        document.getElementById("create-post").addEventListener("click", function() {
             let isAuthenticated = {{ current_user.is_authenticated | tojson }};
             let postText = document.getElementById("post-text").value.trim();
             let nameText = isAuthenticated ? "{{ current_user.username }}" : document.getElementById("name-text").value.trim(); 
-        
-            console.log("This is a post:", postText);
-            console.log("This is a name:", nameText);
-        
+            
             if (!isAuthenticated && nameText === "") {
                 alert("Name cannot be empty!");
                 return;
@@ -66,70 +63,72 @@
                 alert("Post cannot be empty!");
                 return;
             }
-        
-            let formData = new FormData();
-            formData.append("author", nameText);
-            formData.append("content", postText);
-        
-            // Check if an image is selected
-            let fileInput = document.getElementById("file-input");
-            if (fileInput.files.length > 0) {
-                formData.append("image", fileInput.files[0]);  // Append the file
-            }
-        
-            try {
-                let response = await fetch("/create_post", {
-                    method: "POST",
-                    body: formData
-                });
-        
-                console.log("This is a response:", response);
-        
-                if (response.ok) {
-                    location.reload();  // Refresh the page to show the new post
-                } else {
-                    alert("Error creating post!");
-                }
-            } catch (error) {
-                console.error("Error:", error);
-                alert("An error occurred while creating the post.");
+    
+            let container = document.querySelector(".post-container");
+            let currentTime = new Date().toLocaleString(); 
+
+            let imagePreview = document.getElementById("image-preview");
+            let imageElement = imagePreview.querySelector("img");
+            let imageHTML = imageElement ? `<img src="${imageElement.src}" alt="Uploaded Image">` : "";
+    
+            let newPost = document.createElement("div");
+            newPost.classList.add("post");
+            newPost.innerHTML = `
+                <div class="postheader">
+                    <img src="static/images/profile.jpg" alt="User">
+                    <div class="post-user">
+                        <h3>${nameText}</h3>
+                        <p>${currentTime}</p>
+                    </div>
+                </div>
+                <div class="postcontent">
+                    <p>${postText}</p>
+                    ${imageHTML}
+                </div>
+            `;
+
+            container.prepend(newPost);
+            document.getElementById("post-text").value = "";
+            document.getElementById("image-preview").innerHTML = ""; 
+            if (!isAuthenticated) {
+                document.getElementById("name-text").value = "";
             }
         });
-        
+
         // Drag & Drop Image Handling
         let dropArea = document.getElementById("drop-area");
         let fileInput = document.getElementById("file-input");
         let imagePreview = document.getElementById("image-preview");
-        
+
         dropArea.addEventListener("click", () => fileInput.click());
         fileInput.addEventListener("change", handleImageUpload);
-        
+
         dropArea.addEventListener("dragover", (event) => {
             event.preventDefault();
             dropArea.classList.add("dragover");
         });
-        
+
         dropArea.addEventListener("dragleave", () => {
             dropArea.classList.remove("dragover");
         });
-        
+
         dropArea.addEventListener("drop", (event) => {
             event.preventDefault();
             dropArea.classList.remove("dragover");
-        
+
             let file = event.dataTransfer.files[0];
             if (file && file.type.startsWith("image/")) {
                 displayImage(file);
             }
         });
-        
+
         function handleImageUpload(event) {
             let file = event.target.files[0];
             if (file && file.type.startsWith("image/")) {
                 displayImage(file);
             }
         }
-        
+
         function displayImage(file) {
             let reader = new FileReader();
             reader.onload = function(e) {
@@ -137,7 +136,6 @@
             };
             reader.readAsDataURL(file);
         }
-        
     </script>
 </body>
 </html>
