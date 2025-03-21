@@ -20,6 +20,7 @@ def home():
     post=Posts.query.all()
     return render_template('index.html',post=posts)
 
+
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import StringField, PasswordField, SubmitField, BooleanField,TextAreaField
