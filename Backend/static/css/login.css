@@ -31,7 +31,7 @@ header {
 #title {
     font-weight: 900;
     font-size: 2em;
-    margin-left: 2em;
+    margin-left: 1em;
     color: white;
 }
 
@@ -390,4 +390,10 @@ input[name="submit"]{
     color: #8462D4;
     font-size: 20px;
     margin-right: 10px;
+}
+.Ez{
+
+    height: 3em;
+    width: 5%;
+    border-radius: 5px;
 }

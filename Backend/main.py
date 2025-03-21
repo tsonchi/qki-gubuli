@@ -17,6 +17,7 @@ bcrypt=Bcrypt(app)
 @app.route('/')
 @app.route('/home')
 def homepage():
+    post=Posts.query.all()
     return render_template('index.html',post=posts)
 
 from flask_wtf import FlaskForm
@@ -143,15 +144,24 @@ def plan_route():
 
 
 @app.route("/create_post", methods=['GET', 'POST'])
-@login_required
 def create_post():
     form = PostForm()
+
+    print(form.content)
+    post = Posts(content=form.content.data, author=current_user)
+    print(post.content)
+    DB.session.add(post)
+    DB.session.commit()
+    flash('Your post has been created!')
+
     if form.validate_on_submit():
         post = Posts(title=form.title.data, content=form.content.data, author=current_user)
+        print(post.title,post.content)
         DB.session.add(post)
         DB.session.commit()
         flash('Your post has been created!')
         return redirect(url_for('homepage'))
+
     return render_template('create_post.html', title='New Post',form=form, legend='New Post')
 
 @app.route("/post/<int:post_id>")
@@ -209,7 +219,6 @@ class User(UserMixin,DB.Model):
     
 class Posts(DB.Model):
     id = DB.Column(DB.Integer,primary_key=True)
-    title = DB.Column(DB.String(100),nullable=False)
     content = DB.Column(DB.Text,nullable=False)
     image_file = DB.Column(DB.String(20),nullable=True)
     date_posted = DB.Column(DB.DateTime,nullable=False,default=datetime.utcnow)

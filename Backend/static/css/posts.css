@@ -35,7 +35,7 @@ header {
 #title {
     font-weight: 900;
     font-size: 2em;
-    margin-left: 2em;
+    margin-left: 1em;
     color: white;
 }
 
@@ -168,5 +168,11 @@ nav {
     width: 100%;
     max-height: 200px;
     margin-top: 10px;
+    border-radius: 5px;
+}
+.Ez{
+
+    height: 3em;
+    width: 5%;
     border-radius: 5px;
 }

@@ -52,7 +52,7 @@ header {
 #title {
     font-weight: 900;
     font-size: 2em;
-    margin-left: 2em;
+    margin-left: 1em;
     color: white;
 }
 
@@ -204,6 +204,11 @@ p {
 .container .contactInfo .box .text h3 {
     color: #00bcd4;
 }
+.Ez{
 
+    height: 3em;
+    width: 5%;
+    border-radius: 5px;
+}
 
 
