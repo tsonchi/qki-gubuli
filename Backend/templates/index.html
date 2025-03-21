@@ -34,20 +34,38 @@
             helps people by easily organizing vacations and gatherings with family, friends, colleagues.</p>
             <a href="/search" class="hero-btn">Visit Us To Know More</a>
             <div id="reviews-container">
-                <div>
+                <div class="review-card">
+                    <p>"This site manages everything so easily! I can make good plans for a vacation with my family."</p>
                     <div class="reviewer-info">
-                        <div class="gallery">
-                            {% for post in posts %}
-                            <div class="gallery-item">
-                                <img src="{{ url_for('static', filename='uploads/' + post.image_file) }}" alt="{{ post.title }}">
-                                <h3>{{ post.title }}</h3>
-                                <p>{{ post.content[:100] }}...</p> <!-- Show preview of content -->
-                                <a href="{{ url_for('posts', post_id=post.id) }}" class="read-more">Read More</a>
-                            </div>
-                            {% endfor %}
+                       
+                        <div>
+                            <h3 class="reviewer-name">Martin Domovchiev</h3>
+                            <p class="reviewer-role">Content creator</p>
                         </div>
-                    </div>      
-                </div>                  
+                    </div>
+                </div>
+            
+                <div class="review-card">
+                    <p>"I found it hard before to make family reservations for a visit but now I don't have to worry anymore."</p>
+                    <div class="reviewer-info">
+                        
+                        <div>
+                            <h3 class="reviewer-name">John Smith</h3>
+                            <p class="reviewer-role">Traveler</p>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="review-card">
+                    <p>"I really like to travel with friends and this website makes it so much fun! I enjoy posting my stories."</p>
+                    <div class="reviewer-info">
+                        
+                        <div>
+                            <h3 class="reviewer-name">Teodor Simeonov</h3>
+                            <p class="reviewer-role">Finance councelor</p>
+                        </div>
+                    </div>
+                </div>
                 <div>
                     <a href="/create_post" class="posts">See other reviews and posts!</a>
                     
@@ -60,9 +78,6 @@
             <h1></h1>
         </div>
     </div>
-    <script>
-
-    </script>
         
 </body>
 </html>
