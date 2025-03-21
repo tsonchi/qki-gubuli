@@ -144,14 +144,14 @@ def plan_route():
 
 from flask import request, flash, redirect, url_for
 
-@app.route('/create_post', methods=['POST'])
+@app.route('/create_post', methods=['POST', 'GET'])
 @login_required
 def create_post():
     content = request.form.get('content')
 
     if not content:
         flash("Post content cannot be empty", "danger")
-        return redirect(url_for("create_post"))  # Change this to your actual template name
+        return render_template('create_post.html',post=posts, title='Create Post', legend='Create Post')  
 
     new_post = Posts(content=content, user_id=current_user.id)
     

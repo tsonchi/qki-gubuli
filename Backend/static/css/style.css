@@ -198,8 +198,8 @@ nav {
     color: gray;
     margin: 0;
 }
-.posts{
-    display: inline-block;
+.posts {
+    display: inline-block; /* This is fine if you want it inline with other items */
     text-decoration: none;
     color: #fff;
     text-align: center;
@@ -212,9 +212,9 @@ nav {
     cursor: pointer;
     transition: 1s;
     outline: none;
-    top: -30px;
     margin-right: 1.5em;
-}
+    top: 0; /* Adjust the top value to prevent shifting */
+}  
 .posts:hover{
     border: 1px solid #f44336;
     background: #e35248;
