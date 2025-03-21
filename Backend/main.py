@@ -109,9 +109,12 @@ import requests
 @app.route("/plan_route", methods=["GET", "POST"])
 def plan_route():
     if request.method == "POST":
-        city = request.form.get("city")
+        city = request.form.get("city")   
         start_date = request.form.get("start_date")
         end_date = request.form.get("end_date")
+        budget = request.form.get("budget")
+        lowest_rating = request.form.get("lowest_rating")
+        highest_rating = request.form.get("highest_rating")
 
         print(f"📌 Sending request to FastAPI with: city={city}, start_date={start_date}, end_date={end_date}")
 
@@ -119,7 +122,10 @@ def plan_route():
             response = requests.get(FASTAPI_URL, params={
                 "city": city,
                 "start_date": start_date,
-                "end_date": end_date
+                "end_date": end_date,
+                "budget": budget,
+                "lowest_rating": lowest_rating,
+                "highest_rating": highest_rating
             })
             response.raise_for_status()  
 
