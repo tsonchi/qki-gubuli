@@ -170,37 +170,6 @@ def posts(post_id):
     post = Posts.query.get_or_404(post_id)
     return render_template('posts.html', title=post.title, post=post)
 
-
-@app.route('/Update_post/<int:post_id>', methods=['GET', 'POST'])
-@login_required
-def update_post(post_id):
-    post = Posts.query.get_or_404(post_id)
-    if post.author != current_user:
-        abort(403)
-    form = PostForm()
-    if form.validate_on_submit():
-        post.title = form.title.data
-        post.content = form.content.data
-        DB.session.commit()
-        flash('Your post has been updated!')
-        return redirect(url_for('posts', post_id=post.id))
-    elif request.method == 'GET':
-        form.title.data = post.title
-        form.content.data = post.content
-    return render_template('create_post.html', title='Update Post', form=form, legend='Update Post')
-
-
-@app.route("/post/<int:post_id>/delete", methods=['POST'])
-@login_required
-def delete_post(post_id):
-    post = Posts.query.get_or_404(post_id)
-    if post.author != current_user:
-        abort(403)
-    DB.session.delete(post)
-    DB.session.commit()
-    flash('Your post has been deleted!')
-    return redirect(url_for('homepage'))
-
 from flask_login import UserMixin
 from datetime import datetime
 
