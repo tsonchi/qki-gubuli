@@ -59,7 +59,7 @@ class PostForm(FlaskForm):
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('homepage'))
+        return redirect(url_for('home'))
     form = RegistrationForm()
     print(form.password.data)
     if form.validate_on_submit():
@@ -76,13 +76,13 @@ def register():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('homepage'))
+        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user,remember=form.remember.data)
-            return redirect(url_for('homepage'))
+            return redirect(url_for('home'))
         else:
             flash('Login Unsuccessful. Please check email and password.')
     return render_template('login.html',form=form)
@@ -90,7 +90,7 @@ def login():
 @app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('homepage'))
+    return redirect(url_for('home'))
 
 @app.route('/about')
 def about_page():
