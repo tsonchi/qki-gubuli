@@ -142,21 +142,21 @@ def plan_route():
 
 
 
-from flask import request, flash, redirect, url_for
-
-@app.route('/create_post', methods=['POST'])
-@login_required
+@app.route("/create_post", methods=['GET', 'POST'])
 def create_post():
-    content = request.form.get('content')
+    form = PostForm()
 
-    if not content:
-        flash("Post content cannot be empty", "danger")
-        return redirect(url_for("create_post"))  # Change this to your actual template name
+    print(form.content)
+    post = Posts(content=form.content.data, author=current_user)
+    print(post.content)
+    DB.session.add(post)
+    DB.session.commit()
+    flash('Your post has been created!')
 
-    new_post = Posts(content=content, user_id=current_user.id)
-    
-    try:
-        DB.session.add(new_post)
+    if form.validate_on_submit():
+        post = Posts(title=form.title.data, content=form.content.data, author=current_user)
+        print(post.title,post.content)
+        DB.session.add(post)
         DB.session.commit()
         flash("Post created successfully!", "success")
     except Exception as e:

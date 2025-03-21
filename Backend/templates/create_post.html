@@ -32,10 +32,7 @@
 
     <div class="container">
         <div class="post-container"></div>
-        <form action="/create_post" method="POST">
-            <textarea id="content" name="content" required></textarea>
-            <button type="submit">Submit</button>
-        </form>
+        <form method="POST" url = "/create_post" enctype="multipart/form-data">
         <div class="drop-area" id="drop-area">
             <p>Drag & Drop an image or click to select</p>
             <input type="file" id="file-input" accept="image/*" hidden>
@@ -43,7 +40,10 @@
         <div class="image-preview" id="image-preview"></div>
         
         <div class="post-form">
-            
+            {% if current_user.is_authenticated %}
+                <input type="text" id="post-text" placeholder="Write something..." />
+            {% else %}
+                <input type="text" id="name-text" placeholder="Enter your name: " />
                 <input type="text" id="post-text" placeholder="Write something..." />
             <button id="create-post">Create a Post!</button>
         </div>
