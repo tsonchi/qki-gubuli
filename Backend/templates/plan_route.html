@@ -53,7 +53,7 @@
                 <li id="hot">Hotels: 
                     <ul>
                         {% for hotel in item.hotels %}
-                            <li id="hotel">{{ hotel.name }} - Price: {{ hotel.price }}</li>
+                            <li id="hotel">{{ hotel.name }} - Price: {{ hotel.total_price }}</li>
                             <div class = "booknow"><button onclick="searchHotels('{{ hotel.name }}')">Book now</button></div>
                         {% endfor %}
                     </ul>
