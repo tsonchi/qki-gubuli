@@ -96,6 +96,10 @@ def about_page():
 def contact_page():
     return render_template('contact.html')
 
+@app.route('/create_post')
+def create_post():
+    return render_template('create_post.html')
+
 @app.route("/search")
 def search():
     return render_template('input.html')
