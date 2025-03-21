@@ -108,32 +108,36 @@ import requests
 @app.route("/plan_route", methods=["GET", "POST"])
 def plan_route():
     if request.method == "POST":
-        city = request.form.get("destination")
+        city = request.form.get("city")
         start_date = request.form.get("start_date")
         end_date = request.form.get("end_date")
-        
-        # Make a request to the FastAPI backend
+
+        # Debugging: Print values before making request
+        print(f"📌 Sending request to FastAPI with: city={city}, start_date={start_date}, end_date={end_date}")
+
         try:
             response = requests.get(FASTAPI_URL, params={
                 "city": city,
                 "start_date": start_date,
                 "end_date": end_date
             })
-            response.raise_for_status()  # Check if the request was successful
-            
-            data = response.json()  # Get the data from the FastAPI response
+            response.raise_for_status()  # Ensure we get a valid response
+
+            data = response.json()  # Get JSON data
+            print(f"Received response from FastAPI: {data}")  # Debugging
 
             if "error" in data:
                 flash(data["error"], "danger")
                 return redirect(url_for('plan_route'))
             
-            # Pass the data to the template for rendering
-            return render_template("plan_route.html", data=data)
+            print(f"🚀 Rendering data: {data['data']}")
+
+            return render_template("plan_route.html", data=data["data"])  # Send the whole response directly
 
         except requests.exceptions.RequestException as e:
             flash(f"An error occurred: {e}", "danger")
             return redirect(url_for("plan_route"))
-    
+
     return render_template("plan_route.html")
 
 

@@ -1,7 +1,5 @@
 from fastapi import FastAPI, Query
 import requests
-import time
-import random
 import re
 from datetime import datetime
 from geopy.geocoders import Nominatim
@@ -9,7 +7,7 @@ from geopy.geocoders import Nominatim
 app = FastAPI()
 
 OVERPASS_URL = "http://overpass-api.de/api/interpreter"
-SERPAPI_KEY = "b93e39d0d85b812b63d79145d1dc3f29ea3fa958b81a00b65a14c9a3de7d0cbc"  # Замени с реален SerpAPI ключ
+SERPAPI_KEY = "2437bf9576ddfa0350c5b427e4569fee7a554e598df2d6323780e78cc63f5c8d"  # Замени с реален SerpAPI ключ
 
 def get_coordinates(city: str):
     """Взима GPS координати за града чрез OpenStreetMap."""
@@ -88,7 +86,7 @@ def get_hotel_price_from_serpapi(hotel_name, city):
 
 @app.get("/plan_route/")
 def plan_route(
-        cities: str = Query(..., description="Списък с градове, разделени със запетая"),
+        city: str = Query(..., description="Града за посещение"),
         start_date: str = Query(..., description="Начална дата (YYYY-MM-DD)"),
         end_date: str = Query(..., description="Крайна дата (YYYY-MM-DD)")
 ):
@@ -102,27 +100,33 @@ def plan_route(
             return {"error": "Крайната дата трябва да е след началната"}
     except ValueError:
         return {"error": "Грешен формат на датата. Използвайте YYYY-MM-DD"}
-    city_list = [city.strip() for city in cities.split(",")]
-    route = []
-    for city in city_list:
-        coords = get_coordinates(city)
-        if not coords:
-            continue  # Пропуска града, ако не е намерен
-        lat, lon = coords
-        places = get_places(lat, lon)
-        hotels = get_hotels_from_osm(lat, lon)
-        filtered_hotels = []
-        for hotel in hotels:
-            price = get_hotel_price_from_serpapi(hotel["name"], city)
-            if price:
+    coords = get_coordinates(city)
+    if not coords:
+            return {"error": f"Не намерих координати за {city}"}
+
+    lat, lon = coords
+    places = get_places(lat, lon)
+    hotels = get_hotels_from_osm(lat, lon)
+    filtered_hotels = []
+    for hotel in hotels:
+        price = get_hotel_price_from_serpapi(hotel["name"], city)
+        if price:
                 hotel["price"] = price
                 filtered_hotels.append(hotel)  # Добавяме само хотели с цена
-        route.append({
-            "city": city,
-            "places": places,
-            "hotels": filtered_hotels
-        })
-    return {"route": route}
+    response_data = {
+        "data": [
+            {
+              "city": city,
+              "places": {
+                "attractions": places["attractions"],
+                "restaurants": places["restaurants"],
+              },
+              "hotels": filtered_hotels
+            }
+        ]
+    }
+    print(response_data)
+    return response_data
 
 if __name__ == "__main__":
     import uvicorn

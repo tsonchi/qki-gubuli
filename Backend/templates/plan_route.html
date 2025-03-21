@@ -29,30 +29,41 @@
     </header>
     <section class="plan">
     <h1 id = "plan">Your Travel Plan</h1>
-  {% for city in route %}
-    <h2>{{ city.city }}</h2>
-   
-    <h3>Restaurants</h3>
-    <ul>
-        {% for restaurant in city.places.restaurants %}
-            <li>{{ restaurant.name }}</li>
-        {% endfor %}
-    </ul>
+    {% if data %}
+      <h2>Plan for your city</h2>
+      <ul>
+      {% for item in data %}
+        <li>{{ item.city }}: 
+            <ul>
+                <li>Attractions: 
+                    <ul>
+                    {% for attraction in item.places.attractions %}
+                        <li>{{ attraction.name }}</li>
+                    {% endfor %}
+                    </ul>
+                </li>
+                <li>Restaurants: 
+                    <ul>
+                    {% for restaurant in item.places.restaurants %}
+                        <li>{{ restaurant.name }}</li>
+                    {% endfor %}
+                    </ul>
+                </li>
+                <li>Hotels: 
+                    <ul>
+                    {% for hotel in item.hotels %}
+                        <li>{{ hotel.name }} - Price: {{ hotel.price }}</li>
+                    {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+        </li>
+      {% endfor %}
+      </ul>
+    {% else %}
+    <p>No data available for this city.</p>
+    {% endif %}
 
-    <h3>Attractions</h3>
-    <ul>
-        {% for attraction in city.places.attractions %}
-            <li>{{ attraction.name }}</li>
-        {% endfor %}
-    </ul>
-
-    <h3>Hotels</h3>
-    <ul>
-        {% for hotel in city.hotels %}
-            <li>{{ hotel.name }} - {{ hotel.price }}</li>
-        {% endfor %}
-    </ul>
-  {% endfor %}
     </section>
 </body>
 </html>
