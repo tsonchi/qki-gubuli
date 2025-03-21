@@ -34,7 +34,7 @@
         </div>
 
         <div class="contactForm">
-            <form method="POST" action="{{ url_for('login') }}">
+            <form method="POST" action="/login">
                 {{ form.hidden_tag() }}
                 <h3>Log in to account</h3>
                 <div class="login">
@@ -62,8 +62,8 @@
                     {{ form.remember.label }} {{ form.remember }}
                 </div>
 
-                <div class="inputBox",name="Remember me">
-                    {{ form.submit(class="submit-button") }}
+                <div class="inputBox" name="Remember me">
+                    {{ form.submit(class="submit-button", value="Log in") }}
                 </div>
             </form>
         </div>
