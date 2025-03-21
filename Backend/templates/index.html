@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="static/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <script src="https://kit.fontawesome.com/c19c712794.js" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
@@ -17,10 +16,15 @@
             <h1 id = "title">Saitche</h1>
             <ul class="nav">
                 <li><a href="/home">Home</a></li>
-                <li><a href="display.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="#">Service</a></li>
-                <a href="/register"><i class="fa-solid fa-user"></i></a>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/search">Service</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="/logout">Log out</a></li>
+                {% else %}
+                    <a href="/register">Sign up<i class="fa-solid fa-user"></i></a>
+                    <a href="/login">Log in<i class="fa-solid fa-user"></i></a>
+                {% endif %}
             </ul>
         </nav>
     </header>
@@ -29,10 +33,50 @@
         <p id="Obesnenie">,,Saitche"
             helps people by easily organizing vacations and gatherings with family, friends, colleagues.</p>
             <a href="/search" class="hero-btn">Visit Us To Know More</a>
-        
+            <div id="reviews-container">
+                <div class="review-card">
+                    <p>"This site manages everything so easily! I can make good plans for a vacation with my family."</p>
+                    <div class="reviewer-info">
+                       
+                        <div>
+                            <h3 class="reviewer-name">Martin Domovchiev</h3>
+                            <p class="reviewer-role">Content creator</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="review-card">
+                    <p>"I found it hard before to make family reservations for a visit but now I don't have to worry anymore."</p>
+                    <div class="reviewer-info">
+                        
+                        <div>
+                            <h3 class="reviewer-name">John Smith</h3>
+                            <p class="reviewer-role">Traveler</p>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="review-card">
+                    <p>"I really like to travel with friends and this website makes it so much fun! I enjoy posting my stories."</p>
+                    <div class="reviewer-info">
+                        
+                        <div>
+                            <h3 class="reviewer-name">Teodor Simeonov</h3>
+                            <p class="reviewer-role">Finance councelor</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p class="posts">See other reviews and posts!</p>
+                </div>
+                
+                
+               
+            </div>
         <div class = "text-box">
             <h1></h1>
         </div>
     </div>
+        
 </body>
 </html>

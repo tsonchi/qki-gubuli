@@ -10,7 +10,7 @@
     box-sizing: border-box;
 }
 body {
-    background-image: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url("/static/images/image.png");
+    background-image: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url("/static/images/veliko-tarnovo-bulgaria-wallpaper-preview.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
@@ -63,6 +63,7 @@ nav {
 }
 .nav i{
     color: white;
+    margin-left: 1em;
    
 }
 .contact {
@@ -323,6 +324,14 @@ iframe{
     background: #e35248;
     transition: 1s;
 }
+
+
 .inputBox{
     color:#ffffff96;
 };
+
+.inputBox{
+    color:#ffffff96;
+};
+
+

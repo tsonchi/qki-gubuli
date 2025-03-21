@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/about.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c19c712794.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <header class="header">
+
+        <nav>
+            <h1 id = "title">Saitche</h1>
+            <ul class="nav">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/search">Service</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="/logout">Log out</a></li>
+                {% else %}
+                    <a href="/register">Sign up<i class="fa-solid fa-user"></i></a>
+                    <a href="/login">Log in<i class="fa-solid fa-user"></i></a>
+                {% endif %}                
+            </ul>
+        </nav>
+    </header>
+    <div class = "text-box">
+        <h1 id="Aboutus">About us</h1>
+        <p id="text">We are a team of five friends who share a love for exploring new places, making plans, and helping others organize their vacations. From spontaneous weekend getaways to carefully planned holidays, we believe that vacation planning should be fun and stress-free. Our website was created to help people manage every aspect of their trip, from choosing destinations to tracking budgets and activities. With our combined skills and passion for travel, we’re dedicated to making vacation planning easier, so you can focus on what truly matters—enjoying your time away!
+
+            .</p>
+    </div>
+
+    
+    <div class="team-container">
+        <div class="team-member">
+            <img src="/static/images/ivcho.jpg" alt="Ivcho">
+            <h3>Ivcho</h3>
+            <p>Leader & Spokesperson</p>
+        </div>
+        <div class="team-member">
+            <img src="static/images/dancho.jpg" alt="Dancho">
+            <h3>Dancho</h3>
+            <p>Strategist & Problem Solver</p>
+        </div>
+        <div class="team-member">
+            <img src="static/images/ulian.jpg" alt="Ulian">
+            <h3>Uliqn</h3>
+            <p>Creative Innovator</p>
+        </div>
+        <div class="team-member">
+            <img src="static/images/pecata.jpg" alt="Pecata">
+            <h3>Pecata</h3>
+            <p>Operations & Efficiency</p>
+        </div>
+        <div class="team-member">
+            <img src="static/images/deo.jpg" alt="Deo">
+            <h3>Deo</h3>
+            <p>Ambition & Vision</p>
+        </div>
+    </div>
+</body>
+</html>
