@@ -7,10 +7,9 @@ from geopy.geocoders import Nominatim
 app = FastAPI()
 
 OVERPASS_URL = "http://overpass-api.de/api/interpreter"
-SERPAPI_KEY = "2437bf9576ddfa0350c5b427e4569fee7a554e598df2d6323780e78cc63f5c8d"  # Замени с реален SerpAPI ключ
+SERPAPI_KEY = "2437bf9576ddfa0350c5b427e4569fee7a554e598df2d6323780e78cc63f5c8d"  
 
 def get_coordinates(city: str):
-    """Взима GPS координати за града чрез OpenStreetMap."""
     geolocator = Nominatim(user_agent="travel_planner")
     location = geolocator.geocode(f"{city}, Bulgaria")
     return (location.latitude, location.longitude) if location else None
