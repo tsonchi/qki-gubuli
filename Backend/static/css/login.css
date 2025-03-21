@@ -337,3 +337,57 @@ input[name="submit"]{
     margin-right: 10px;
     cursor: pointer;
 };
+.plan {
+    background: rgba(44, 38, 56, 0.9);
+    color: white;
+    padding: 40px;
+    margin-top: 5em;
+    border-radius: 10px;
+    max-width: 80%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+#plan {
+    font-size: 36px;
+    text-align: center;
+    margin-top: 3.5em;
+    color: #d1c1e0;
+}
+
+.plan h2 {
+    font-size: 28px;
+    color: #8462D4;
+    margin-top: 20px;
+    border-bottom: 2px solid #8462D4;
+    padding-bottom: 5px;
+}
+
+.plan h3 {
+    font-size: 22px;
+    color: #d1c1e0;
+    margin-top: 15px;
+}
+
+.plan ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.plan li {
+    background: #211b2d;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.plan li:hover {
+    background: #2c2638;
+}
+
+.plan li::before {
+    content: "•";
+    color: #8462D4;
+    font-size: 20px;
+    margin-right: 10px;
+}

@@ -27,7 +27,8 @@
             </ul>
         </nav>
     </header>
-    <h1>Your Travel Plan</h1>
+    <section class="plan">
+    <h1 id = "plan">Your Travel Plan</h1>
   {% for city in route %}
     <h2>{{ city.city }}</h2>
    
@@ -52,5 +53,6 @@
         {% endfor %}
     </ul>
   {% endfor %}
+    </section>
 </body>
 </html>
