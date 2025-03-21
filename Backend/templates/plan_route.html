@@ -31,32 +31,39 @@
     <section class="plan">
     <h1 id = "plan">Your Travel Plan</h1>
     {% if data %}
-      <h2>Plan for your city</h2>
+      <h2>Plan for your city:</h2>
       <ul>
       {% for item in data %}
-        <li>{{ item.city }}: 
+        <li id = "city">{{ item.city }}: 
             <ul>
-                <li>Attractions: 
+                <li id="atr">Attractions: 
                     <ul>
                     {% for attraction in item.places.attractions %}
-                        <li>{{ attraction.name }}</li>
+                        <li id = "attraction">{{ attraction.name }}</li>
                     {% endfor %}
                     </ul>
                 </li>
-                <li>Restaurants: 
+                <li id="rest">Restaurants: 
                     <ul>
                     {% for restaurant in item.places.restaurants %}
-                        <li>{{ restaurant.name }}</li>
+                        <li id = "restaurant">{{ restaurant.name }}</li>
                     {% endfor %}
                     </ul>
                 </li>
-                <li>Hotels: 
+                <li id="hot">Hotels: 
                     <ul>
-                    {% for hotel in item.hotels %}
-                        <li>{{ hotel.name }} - Price: {{ hotel.price }}</li>
-                    {% endfor %}
+                        {% for hotel in item.hotels %}
+                            <li id="hotel">{{ hotel.name }} - Price: {{ hotel.price }}</li>
+                            <div class = "booknow"><button onclick="searchHotels('{{ hotel.name }}')">Book now</button></div>
+                        {% endfor %}
                     </ul>
                 </li>
+                
+                <script>
+                function searchHotels(hotelName) {
+                    window.open(`https://www.booking.com/searchresults.en-gb.html?ss=${encodeURIComponent(hotelName)}`);
+                }
+                </script>
             </ul>
         </li>
       {% endfor %}

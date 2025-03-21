@@ -18,7 +18,6 @@ class User(UserMixin,DB.Model):
 class Posts(DB.Model):
     id = DB.Column(DB.Integer,primary_key=True)
     title = DB.Column(DB.String(100),nullable=False)
-    content = DB.Column(DB.Text,nullable=False)
     image_file = DB.Column(DB.String(20),nullable=False)
     date_posted = DB.Column(DB.DateTime,nullable=False,default=datetime.utcnow)
     user_id = DB.Column(DB.Integer, DB.ForeignKey('user.id'),nullable=False)

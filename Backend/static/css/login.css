@@ -330,7 +330,27 @@ iframe{
 .inputBox{
     color:#ffffff96;
 };
+.booknow {
+    margin-top: 1em;
+    width: 100%;
+    background: #8462D4;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 18px;
+    text-align: center;
+}
 
+.booknow button {
+    background: #8462D4;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 15px;
+    width: 15%;
+}
 input[name="submit"]{
     width: 20px;
     height: 20px;
@@ -340,11 +360,16 @@ input[name="submit"]{
 .plan {
     background: rgba(44, 38, 56, 0.9);
     color: white;
+    text-decoration-color: white;
     padding: 40px;
     margin-top: 5em;
     border-radius: 10px;
     max-width: 80%;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+#city{
+    background: #2c2638;
+
 }
 
 #plan {
@@ -356,10 +381,9 @@ input[name="submit"]{
 
 .plan h2 {
     font-size: 28px;
-    color: #8462D4;
+    color: #d1c1e0;
     margin-top: 20px;
-    border-bottom: 2px solid #8462D4;
-    padding-bottom: 5px;
+    margin-bottom: 0.5em;
 }
 
 .plan h3 {
@@ -374,6 +398,8 @@ input[name="submit"]{
 }
 
 .plan li {
+
+    color: white;
     background: #211b2d;
     padding: 10px;
     margin: 8px 0;
@@ -381,8 +407,21 @@ input[name="submit"]{
     transition: 0.3s;
 }
 
-.plan li:hover {
+#attraction:hover {
     background: #2c2638;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+#hotel:hover {
+    background: #2c2638;
+    cursor: pointer;
+    font-size: 18px;
+}
+#restaurant:hover {
+    background: #2c2638;
+    cursor: pointer;
+    font-size: 18px;
 }
 
 .plan li::before {
@@ -396,4 +435,16 @@ input[name="submit"]{
     height: 3em;
     width: 5%;
     border-radius: 5px;
+}
+#atr{
+    margin-bottom: 1em;
+    
+}
+#rest{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+#hot{
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
