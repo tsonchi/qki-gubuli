@@ -16,7 +16,7 @@ bcrypt=Bcrypt(app)
 
 @app.route('/')
 @app.route('/home')
-def homepage():
+def home():
     post=Posts.query.all()
     return render_template('index.html',post=posts)
 
@@ -144,14 +144,14 @@ def plan_route():
 
 from flask import request, flash, redirect, url_for
 
-@app.route('/create_post', methods=['POST'])
+@app.route('/create_post', methods=['POST', 'GET'])
 @login_required
 def create_post():
     content = request.form.get('content')
 
     if not content:
         flash("Post content cannot be empty", "danger")
-        return redirect(url_for("create_post"))  # Change this to your actual template name
+        return render_template('create_post.html',post=posts, title='Create Post', legend='Create Post')  
 
     new_post = Posts(content=content, user_id=current_user.id)
     
@@ -159,47 +159,20 @@ def create_post():
         DB.session.add(new_post)
         DB.session.commit()
         flash("Post created successfully!", "success")
+        print("Post created successfully!")
+        return redirect('/home')
+        
     except Exception as e:
         DB.session.rollback()
         flash("Error creating post: " + str(e), "danger")
+        print("Error creating post: " + str(e))
+        return redirect(url_for('home'))
 
-    return redirect(url_for("homepage"))
 
 @app.route("/post/<int:post_id>")
 def posts(post_id):
     post = Posts.query.get_or_404(post_id)
     return render_template('posts.html', title=post.title, post=post)
-
-
-@app.route('/Update_post/<int:post_id>', methods=['GET', 'POST'])
-@login_required
-def update_post(post_id):
-    post = Posts.query.get_or_404(post_id)
-    if post.author != current_user:
-        abort(403)
-    form = PostForm()
-    if form.validate_on_submit():
-        post.title = form.title.data
-        post.content = form.content.data
-        DB.session.commit()
-        flash('Your post has been updated!')
-        return redirect(url_for('posts', post_id=post.id))
-    elif request.method == 'GET':
-        form.title.data = post.title
-        form.content.data = post.content
-    return render_template('create_post.html', title='Update Post', form=form, legend='Update Post')
-
-
-@app.route("/post/<int:post_id>/delete", methods=['POST'])
-@login_required
-def delete_post(post_id):
-    post = Posts.query.get_or_404(post_id)
-    if post.author != current_user:
-        abort(403)
-    DB.session.delete(post)
-    DB.session.commit()
-    flash('Your post has been deleted!')
-    return redirect(url_for('homepage'))
 
 from flask_login import UserMixin
 from datetime import datetime
