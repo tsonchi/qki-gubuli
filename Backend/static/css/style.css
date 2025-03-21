@@ -211,6 +211,7 @@ nav {
     transition: 1s;
     outline: none;
     top: -30px;
+    margin-right: 1.5em;
 }
 .posts:hover{
     border: 1px solid #f44336;

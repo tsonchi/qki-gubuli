@@ -16,7 +16,7 @@ bcrypt=Bcrypt(app)
 @app.route('/')
 @app.route('/home')
 def homepage():
-    return render_template('index.html')
+    return render_template('index.html',post=posts)
 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired

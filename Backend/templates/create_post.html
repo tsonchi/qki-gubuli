@@ -12,7 +12,6 @@
 <body>
     <header class="header">
         <nav>
-            <h1 id="title">Saitche</h1>
             <ul class="nav">
                 <li><a href="/home">Home</a></li>
                 <li><a href="/about">About</a></li>
@@ -21,22 +20,34 @@
                 {% if current_user.is_authenticated %}
                     <li><a href="/logout">Log out</a></li>
                 {% else %}
-                    <a href="/register">Sign up <i class="fa-solid fa-user"></i></a>
-                    <a href="/login">Log in <i class="fa-solid fa-user"></i></a>
+                    <li><a href="/register">Sign up <i class="fa-solid fa-user"></i></a></li>
+                    <li><a href="/login">Log in <i class="fa-solid fa-user"></i></a></li>
                 {% endif %}
             </ul>
         </nav>
     </header>
 
     <div class="container">
-        <div class="post-container"></div>
+        <div class="post-container">
+            {% for post in posts %}
+            <div class="post">
+                <div class="postheader">
+                    <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="User">
+                    <div class="post-user">
+                        <h3>{{ post.author.username if post.author else 'Anonymous' }}</h3>
+                        <p>{{ post.date_posted.strftime('%Y-%m-%d %H:%M') }}</p>
+                    </div>
+                </div>
+                <div class="postcontent">
+                    <p>{{ post.content }}</p>
+                    {% if post.image_file %}
+                    <img src="{{ url_for('static', filename='uploads/' + post.image_file) }}" alt="Post Image">
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
-        <div class="drop-area" id="drop-area">
-            <p>Drag & Drop an image or click to select</p>
-            <input type="file" id="file-input" accept="image/*" hidden>
-        </div> 
-        <div class="image-preview" id="image-preview"></div>
-        
         <div class="post-form">
             {% if current_user.is_authenticated %}
             <input type="text" id="post-text" placeholder="Write something..." />
@@ -46,13 +57,13 @@
             {% endif %}
             <button id="create-post">Create a Post!</button>
         </div>
-    </div>
+    </div> <!-- Closing container div was missing -->
 
     <script>
         document.getElementById("create-post").addEventListener("click", function() {
             let isAuthenticated = {{ current_user.is_authenticated | tojson }};
             let postText = document.getElementById("post-text").value.trim();
-            let nameText = isAuthenticated ? "{{ current_user.username }}" : document.getElementById("name-text").value.trim(); 
+            let nameText = isAuthenticated ? {{ current_user.username | tojson }} : document.getElementById("name-text").value.trim(); 
             
             if (!isAuthenticated && nameText === "") {
                 alert("Name cannot be empty!");
@@ -62,19 +73,15 @@
                 alert("Post cannot be empty!");
                 return;
             }
-    
-            let container = document.querySelector(".post-container");
-            let currentTime = new Date().toLocaleString(); 
 
-            let imagePreview = document.getElementById("image-preview");
-            let imageElement = imagePreview.querySelector("img");
-            let imageHTML = imageElement ? `<img src="${imageElement.src}" alt="Uploaded Image">` : "";
-    
+            let container = document.querySelector(".post-container");
+            let currentTime = new Date().toLocaleString();
+
             let newPost = document.createElement("div");
             newPost.classList.add("post");
             newPost.innerHTML = `
                 <div class="postheader">
-                    <img src="static/images/profile.jpg" alt="User">
+                    <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="User">
                     <div class="post-user">
                         <h3>${nameText}</h3>
                         <p>${currentTime}</p>
@@ -82,59 +89,15 @@
                 </div>
                 <div class="postcontent">
                     <p>${postText}</p>
-                    ${imageHTML}
                 </div>
             `;
 
             container.prepend(newPost);
             document.getElementById("post-text").value = "";
-            document.getElementById("image-preview").innerHTML = ""; 
             if (!isAuthenticated) {
                 document.getElementById("name-text").value = "";
             }
         });
-
-        // Drag & Drop Image Handling
-        let dropArea = document.getElementById("drop-area");
-        let fileInput = document.getElementById("file-input");
-        let imagePreview = document.getElementById("image-preview");
-
-        dropArea.addEventListener("click", () => fileInput.click());
-        fileInput.addEventListener("change", handleImageUpload);
-
-        dropArea.addEventListener("dragover", (event) => {
-            event.preventDefault();
-            dropArea.classList.add("dragover");
-        });
-
-        dropArea.addEventListener("dragleave", () => {
-            dropArea.classList.remove("dragover");
-        });
-
-        dropArea.addEventListener("drop", (event) => {
-            event.preventDefault();
-            dropArea.classList.remove("dragover");
-
-            let file = event.dataTransfer.files[0];
-            if (file && file.type.startsWith("image/")) {
-                displayImage(file);
-            }
-        });
-
-        function handleImageUpload(event) {
-            let file = event.target.files[0];
-            if (file && file.type.startsWith("image/")) {
-                displayImage(file);
-            }
-        }
-
-        function displayImage(file) {
-            let reader = new FileReader();
-            reader.onload = function(e) {
-                imagePreview.innerHTML = `<img src="${e.target.result}" alt="Uploaded Image">`;
-            };
-            reader.readAsDataURL(file);
-        }
     </script>
 </body>
 </html>
