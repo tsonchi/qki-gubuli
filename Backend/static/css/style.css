@@ -60,6 +60,7 @@ nav {
 }
 
 .nav a:hover {
+    border-radius: 5px;
     background-color: rgb(18, 17, 17);
 }
 .nav i{

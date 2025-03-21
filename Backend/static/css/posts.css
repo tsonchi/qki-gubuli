@@ -66,7 +66,9 @@ nav {
     background-color: rgb(18, 17, 17);
     border-radius: 5px;
 }
-
+.nav i{
+    margin-left: 1em;
+}
 
 .container {
     max-width: 700px;
