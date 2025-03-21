@@ -109,7 +109,7 @@ import requests
 @app.route("/plan_route", methods=["GET", "POST"])
 def plan_route():
     if request.method == "POST":
-        city = request.form.get("city")
+        city = request.form.get("city")   
         start_date = request.form.get("start_date")
         end_date = request.form.get("end_date")
 

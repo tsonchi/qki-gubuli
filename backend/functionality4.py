@@ -154,7 +154,7 @@ def calculate_total_hotel_cost(price_per_night, start_date, end_date):
 
 @app.get("/plan_route/")
 def plan_route(
-        cities: str = Query(..., description="Списък с градове, разделени със запетая"),
+        city: str = Query(..., description="Града за посещение"),
         budget: int = Query(..., description="Бюджет за хотел общо (в левове)"),
         lowest_rating: float = Query(..., description="Минимален рейтинг на ресторант"),
         highest_rating: float = Query(..., description="Максимален рейтинг на ресторант"),
@@ -172,44 +172,44 @@ def plan_route(
     except ValueError:
         return {"error": "Грешен формат на датата. Използвайте YYYY-MM-DD"}
 
-    city_list = [city.strip() for city in cities.split(",")]
-    route = []
+    coords = get_coordinates(city)
+    if not coords:
+        return {"error": f"Не намерих координати за {city}"}
 
-    for city in city_list:
-        coords = get_coordinates(city)
-        if not coords:
-            continue  # Пропуска града, ако не е намерен
-        lat, lon = coords
+    
+    lat, lon = coords
 
-        places = get_restaurants(city, lowest_rating, highest_rating)
-        hotels = get_hotels_from_osm(lat, lon)
+    places = get_restaurants(city, lowest_rating, highest_rating)
+    hotels = get_hotels_from_osm(lat, lon)
 
-        filtered_hotels = []
-        for hotel in hotels:
-            price = get_hotel_price_from_serper(hotel["name"], city)
+    filtered_hotels = []
+    for hotel in hotels:
+        price = get_hotel_price_from_serper(hotel["name"], city)
+        if price:
+            price_bgn = convert_price_to_bgn(price)
+            match = re.search(r'(\d+)', price_bgn)
+            if match:
+                price_per_night = int(match.group(1))
+                total_price = calculate_total_hotel_cost(price_per_night, start, end)
+                if total_price <= budget:
+                    hotel["price_per_night"] = f"{price_per_night} BGN"
+                    hotel["total_price"] = f"{total_price} BGN"
+                    filtered_hotels.append(hotel)
 
-            if price:
-                price_bgn = convert_price_to_bgn(price)
-                match = re.search(r'(\d+)', price_bgn)
-
-                if match:
-                    price_per_night = int(match.group(1))
-                    total_price = calculate_total_hotel_cost(price_per_night, start, end)
-
-                    if total_price <= budget:
-                        hotel["price_per_night"] = f"{price_per_night} BGN"
-                        hotel["total_price"] = f"{total_price} BGN"
-                        filtered_hotels.append(hotel)
-
-        route.append({
-            "city": city,
-            "hotels": filtered_hotels,
-            "restaurants": places["restaurants"],
-            "attractions": places["attractions"]
-        })
-
-    return {"route": route}
-
+    response_data = {
+        "data": [
+            {
+              "city": city,
+              "places": {
+                "attractions": places["attractions"],
+                "restaurants": places["restaurants"],
+              },
+              "hotels": filtered_hotels
+            }
+        ]
+    }
+    print(response_data)
+    return response_data
 
 if __name__ == "__main__":
     import uvicorn
