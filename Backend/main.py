@@ -139,7 +139,6 @@ def plan_route():
 
 
 @app.route("/create_post", methods=['GET', 'POST'])
-@login_required
 def create_post():
     form = PostForm()
     if form.validate_on_submit():
