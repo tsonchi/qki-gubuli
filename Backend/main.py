@@ -98,17 +98,13 @@ def about_page():
 def contact_page():
     return render_template('contact.html')
 
-@app.route('/create_post')
-def create_post():
-    return render_template('create_post.html')
-
 @app.route("/search")
 def search():
     return render_template('input.html')
 
-@app.route("/post/new", methods=['GET', 'POST'])
+@app.route("/create_post", methods=['GET', 'POST'])
 @login_required
-def new_post():
+def create_post():
     form = PostForm()
     if form.validate_on_submit():
         post = Posts(title=form.title.data, content=form.content.data, author=current_user)
@@ -175,7 +171,7 @@ class Posts(DB.Model):
     id = DB.Column(DB.Integer,primary_key=True)
     title = DB.Column(DB.String(100),nullable=False)
     content = DB.Column(DB.Text,nullable=False)
-    image_file = DB.Column(DB.String(20),nullable=False)
+    image_file = DB.Column(DB.String(20),nullable=True)
     date_posted = DB.Column(DB.DateTime,nullable=False,default=datetime.utcnow)
     user_id = DB.Column(DB.Integer, DB.ForeignKey('user.id'),nullable=False)
     
