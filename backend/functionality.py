@@ -9,16 +9,14 @@ from geopy.geocoders import Nominatim
 app = FastAPI()
 
 OVERPASS_URL = "http://overpass-api.de/api/interpreter"
-SERPAPI_KEY = "b93e39d0d85b812b63d79145d1dc3f29ea3fa958b81a00b65a14c9a3de7d0cbc"  # Замени с реален SerpAPI ключ
+SERPAPI_KEY = "b93e39d0d85b812b63d79145d1dc3f29ea3fa958b81a00b65a14c9a3de7d0cbc"  
 
 def get_coordinates(city: str):
-    """Взима GPS координати за града чрез OpenStreetMap."""
     geolocator = Nominatim(user_agent="travel_planner")
     location = geolocator.geocode(f"{city}, Bulgaria")
     return (location.latitude, location.longitude) if location else None
 
 def get_places(lat, lon):
-    """Извлича ресторанти, забележителности и хотели от OpenStreetMap."""
     query = f"""
     [out:json];
     (
@@ -49,7 +47,6 @@ def get_places(lat, lon):
     }
 
 def get_hotels_from_osm(lat, lon):
-    """Извлича хотели от OpenStreetMap."""
     query = f"""
     [out:json];
     node["tourism"="hotel"](around:10000,{lat},{lon});
@@ -69,7 +66,6 @@ def get_hotels_from_osm(lat, lon):
     return hotels[:6]
 
 def get_hotel_price_from_serpapi(hotel_name, city):
-    """Извлича цена за конкретен хотел от Google чрез SerpAPI."""
     url = "https://serpapi.com/search"
     params = {
         "engine": "google",
@@ -84,7 +80,7 @@ def get_hotel_price_from_serpapi(hotel_name, city):
         match = re.search(r'(\d{1,5})\s?(лв|BGN|€|EUR)', snippet)
         if match:
             return f"{match.group(1)} {match.group(2)}"
-    return None  # Ако няма цена, връща None
+    return None  
 
 @app.get("/plan_route/")
 def plan_route(
@@ -116,7 +112,7 @@ def plan_route(
             price = get_hotel_price_from_serpapi(hotel["name"], city)
             if price:
                 hotel["price"] = price
-                filtered_hotels.append(hotel)  # Добавяме само хотели с цена
+                filtered_hotels.append(hotel)
         route.append({
             "city": city,
             "places": places,

@@ -1,13 +1,14 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask import render_template, url_for, flash, redirect, request,abort
+from flask import render_template, url_for, flash, redirect, request, abort
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, current_user, logout_user,login_required
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+FASTAPI_URL = "http://127.0.0.1:8000/plan_route/"
 DB = SQLAlchemy(app)
 login_manager = LoginManager(app)
 bcrypt=Bcrypt(app)
@@ -99,6 +100,40 @@ def contact_page():
 @app.route("/search")
 def search():
     return render_template('input.html')
+
+import requests
+
+@app.route("/plan_route", methods=["GET", "POST"])
+def plan_route():
+    if request.method == "POST":
+        city = request.form.get("destination")
+        start_date = request.form.get("start_date")
+        end_date = request.form.get("end_date")
+        
+        # Make a request to the FastAPI backend
+        try:
+            response = requests.get(FASTAPI_URL, params={
+                "city": city,
+                "start_date": start_date,
+                "end_date": end_date
+            })
+            response.raise_for_status()  # Check if the request was successful
+            
+            data = response.json()  # Get the data from the FastAPI response
+
+            if "error" in data:
+                flash(data["error"], "danger")
+                return redirect(url_for('plan_route'))
+            
+            # Pass the data to the template for rendering
+            return render_template("plan_route.html", data=data)
+
+        except requests.exceptions.RequestException as e:
+            flash(f"An error occurred: {e}", "danger")
+            return redirect(url_for("plan_route"))
+    
+    return render_template("plan_route.html")
+
 
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required

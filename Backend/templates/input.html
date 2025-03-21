@@ -35,7 +35,7 @@
         </div>
 
             <div class="mapForm">
-                <form>
+                <form action="{{ url_for('plan_route') }}" method="POST">
                     <div class="inputBox">
                         <input type="text" id="destination" required>
                         <span>Destination</span>
@@ -53,12 +53,12 @@
                     referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
                     <div class="inputBox">
-                        <input type="text" id="Rating" required>
-                        <span>Rating</span>
+                        <input type="text" id="start_date" name="start_date" required>
+                        <span>Start date</span>
                     </div>
                     <div class="inputBox">
-                        <input type="text" id="time" required>
-                        <span>Time of your stay</span>
+                        <input type="text" id="end-date" name="end_date" required>
+                        <span>End date</span>
                     </div>
                     <div class="inputBox">
                         <input type="submit" value="Submit">
