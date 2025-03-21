@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="static/css/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <script src="https://kit.fontawesome.com/c19c712794.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -17,10 +16,15 @@
             <ul class="nav">
                 <li><a href="/home">Home</a></li>
                 <li><a href="/about">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="#">Service</a></li>
-                <a href="/login">Login<i class="fa-solid fa-user"></i></a>
-            </ul>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/search">Service</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="/logout">Log out</a></li>
+                {% else %}
+                    <a href="/register">Sign up<i class="fa-solid fa-user"></i></a>
+                    <a href="/login">Log in<i class="fa-solid fa-user"></i></a>
+                {% endif %}
+                </ul>
         </nav>
     </header>
     <section class="contact">

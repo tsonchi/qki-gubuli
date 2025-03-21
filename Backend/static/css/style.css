@@ -137,3 +137,83 @@ nav {
 .nav i{
     margin-left: 1em;
 }
+
+
+#reviews-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 50px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+}
+
+.review-card {
+    background: rgb(163, 163, 163);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+    width: 250px;
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.review-card p {
+    font-size: 14px;
+    color: #333;
+}
+
+.reviewer-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+.reviewer-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.reviewer-name {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.reviewer-role {
+    font-size: 10px;
+    color: gray;
+    margin: 0;
+}
+.posts{
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    text-align: center;
+    border: 1px solid #fff;
+    padding: 12px 20px;
+    font-weight: 500;
+    font-size: 13px;
+    background: transparent;
+    position: relative;
+    cursor: pointer;
+    transition: 1s;
+    outline: none;
+    top: -30px;
+}
+.posts:hover{
+    border: 1px solid #f44336;
+    background: #e35248;
+    transition: 1s;
+}
