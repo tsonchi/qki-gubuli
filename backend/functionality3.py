@@ -37,14 +37,14 @@ def get_places(lat, lon):
     for poi in pois:
         name = poi.get("tags", {}).get("name")
         if not name:
-            continue  # Пропускаме обекти без име
+            continue 
 
         place = {"name": name, "lat": poi["lat"], "lon": poi["lon"]}
         tags = poi.get("tags", {})
 
         if "restaurant" in tags.get("amenity", ""):
             restaurants.append(place)
-        elif "hotel" not in tags.get("tourism", ""):  # 🔴 Изключваме хотелите от атракциите!
+        elif "hotel" not in tags.get("tourism", ""): 
             attractions.append(place)
 
     return {
