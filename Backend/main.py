@@ -109,56 +109,61 @@ import requests
 @app.route("/plan_route", methods=["GET", "POST"])
 def plan_route():
     if request.method == "POST":
-        city = request.form.get("destination")
+        city = request.form.get("city")
         start_date = request.form.get("start_date")
         end_date = request.form.get("end_date")
-        
-        # Make a request to the FastAPI backend
+
+        print(f"📌 Sending request to FastAPI with: city={city}, start_date={start_date}, end_date={end_date}")
+
         try:
             response = requests.get(FASTAPI_URL, params={
                 "city": city,
                 "start_date": start_date,
                 "end_date": end_date
             })
-            response.raise_for_status()  # Check if the request was successful
-            
-            data = response.json()  # Get the data from the FastAPI response
+            response.raise_for_status()  
+
+            data = response.json()  
+            print(f"Received response from FastAPI: {data}")
 
             if "error" in data:
                 flash(data["error"], "danger")
                 return redirect(url_for('plan_route'))
             
-            # Pass the data to the template for rendering
-            return render_template("plan_route.html", data=data)
+            print(f"🚀 Rendering data: {data['data']}")
+
+            return render_template("plan_route.html", data=data["data"]) 
 
         except requests.exceptions.RequestException as e:
             flash(f"An error occurred: {e}", "danger")
             return redirect(url_for("plan_route"))
-    
+
     return render_template("plan_route.html")
 
 
 
-@app.route("/create_post", methods=['GET', 'POST'])
+from flask import request, flash, redirect, url_for
+
+@app.route('/create_post', methods=['POST'])
+@login_required
 def create_post():
-    form = PostForm()
+    content = request.form.get('content')
 
-    print(form.content)
-    post = Posts(content=form.content.data, author=current_user)
-    print(post.content)
-    DB.session.add(post)
-    DB.session.commit()
-    flash('Your post has been created!')
+    if not content:
+        flash("Post content cannot be empty", "danger")
+        return redirect(url_for("create_post"))  # Change this to your actual template name
 
-    if form.validate_on_submit():
-        post = Posts(title=form.title.data, content=form.content.data, author=current_user)
-        print(post.title,post.content)
-        DB.session.add(post)
+    new_post = Posts(content=content, user_id=current_user.id)
+    
+    try:
+        DB.session.add(new_post)
         DB.session.commit()
-        flash('Your post has been created!')
-        return redirect(url_for('homepage'))
+        flash("Post created successfully!", "success")
+    except Exception as e:
+        DB.session.rollback()
+        flash("Error creating post: " + str(e), "danger")
 
-    return render_template('create_post.html', title='New Post',form=form, legend='New Post')
+    return redirect(url_for("homepage"))
 
 @app.route("/post/<int:post_id>")
 def posts(post_id):

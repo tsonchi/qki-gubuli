@@ -39,10 +39,10 @@
             <div class="mapForm">
                 <form action="{{ url_for('plan_route') }}" method="POST">
                     <div class="inputBox">
-                        <input type="text" id="destination" required>
+                        <input type="text" id="city" name="city" required>
                         <span>Destination</span>
                     </div>
-                    <button class = "hero-btn" onclick="updateMap()" >
+                    <button type="button" class = "hero-btn" onclick="updateMap()" >
                         Search <i id ="ikonka" class="fa-solid fa-map-location-dot"></i>
                     </button>                    
                     <iframe id="mapFrame" 
@@ -52,14 +52,13 @@
                     style="border:0;" 
                     allowfullscreen="" 
                     loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-                    <div class="inputBox">
+                    referrerpolicy="no-referrer-when-downgrade"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001318.8291699174!2d25.54317835!3d42.72541100000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a8fec1c85bf089%3A0xa01269bf4c10!2sBulgaria!5e0!3m2!1sen!2sbg!4v1742574250704!5m2!1sen!2sbg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                    <div class="inputBox">
                         <input type="text" id="start_date" name="start_date" required>
                         <span>Start date</span>
                     </div>
                     <div class="inputBox">
-                        <input type="text" id="end-date" name="end_date" required>
+                        <input type="text" id="end_date" name="end_date" required>
                         <span>End date</span>
                     </div>
                     <div class="inputBox">
@@ -71,7 +70,7 @@
     </section>
     <script>
         function updateMap() {
-            let destination = document.getElementById("destination").value;
+            let destination = document.getElementById("city").value;
             let mapFrame = document.getElementById("mapFrame");
         
             if (destination.trim() !== "") {
@@ -80,6 +79,7 @@
                 mapFrame.src = mapUrl;
             }
         }
+        
         </script>
     
 </body>

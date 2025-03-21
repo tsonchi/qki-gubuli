@@ -30,30 +30,48 @@
     </header>
     <section class="plan">
     <h1 id = "plan">Your Travel Plan</h1>
-  {% for city in route %}
-    <h2>{{ city.city }}</h2>
-   
-    <h3>Restaurants</h3>
-    <ul>
-        {% for restaurant in city.places.restaurants %}
-            <li>{{ restaurant.name }}</li>
-        {% endfor %}
-    </ul>
+    {% if data %}
+      <h2>Plan for your city:</h2>
+      <ul>
+      {% for item in data %}
+        <li id = "city">{{ item.city }}: 
+            <ul>
+                <li id="atr">Attractions: 
+                    <ul>
+                    {% for attraction in item.places.attractions %}
+                        <li id = "attraction">{{ attraction.name }}</li>
+                    {% endfor %}
+                    </ul>
+                </li>
+                <li id="rest">Restaurants: 
+                    <ul>
+                    {% for restaurant in item.places.restaurants %}
+                        <li id = "restaurant">{{ restaurant.name }}</li>
+                    {% endfor %}
+                    </ul>
+                </li>
+                <li id="hot">Hotels: 
+                    <ul>
+                        {% for hotel in item.hotels %}
+                            <li id="hotel">{{ hotel.name }} - Price: {{ hotel.price }}</li>
+                            <div class = "booknow"><button onclick="searchHotels('{{ hotel.name }}')">Book now</button></div>
+                        {% endfor %}
+                    </ul>
+                </li>
+                
+                <script>
+                function searchHotels(hotelName) {
+                    window.open(`https://www.booking.com/searchresults.en-gb.html?ss=${encodeURIComponent(hotelName)}`);
+                }
+                </script>
+            </ul>
+        </li>
+      {% endfor %}
+      </ul>
+    {% else %}
+    <p>No data available for this city.</p>
+    {% endif %}
 
-    <h3>Attractions</h3>
-    <ul>
-        {% for attraction in city.places.attractions %}
-            <li>{{ attraction.name }}</li>
-        {% endfor %}
-    </ul>
-
-    <h3>Hotels</h3>
-    <ul>
-        {% for hotel in city.hotels %}
-            <li>{{ hotel.name }} - {{ hotel.price }}</li>
-        {% endfor %}
-    </ul>
-  {% endfor %}
     </section>
 </body>
 </html>
