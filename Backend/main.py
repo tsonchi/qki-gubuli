@@ -16,7 +16,7 @@ bcrypt=Bcrypt(app)
 
 @app.route('/')
 @app.route('/home')
-def homepage():
+def home():
     post=Posts.query.all()
     return render_template('index.html',post=posts)
 
@@ -59,7 +59,7 @@ class PostForm(FlaskForm):
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('homepage'))
+        return redirect(url_for('home'))
     form = RegistrationForm()
     print(form.password.data)
     if form.validate_on_submit():
@@ -76,13 +76,13 @@ def register():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('homepage'))
+        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user,remember=form.remember.data)
-            return redirect(url_for('homepage'))
+            return redirect(url_for('home'))
         else:
             flash('Login Unsuccessful. Please check email and password.')
     return render_template('login.html',form=form)
@@ -90,7 +90,7 @@ def login():
 @app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('homepage'))
+    return redirect(url_for('home'))
 
 @app.route('/about')
 def about_page():
@@ -159,11 +159,15 @@ def create_post():
         DB.session.add(new_post)
         DB.session.commit()
         flash("Post created successfully!", "success")
+        print("Post created successfully!")
+        return redirect('/home')
+        
     except Exception as e:
         DB.session.rollback()
         flash("Error creating post: " + str(e), "danger")
+        print("Error creating post: " + str(e))
+        return redirect(url_for('home'))
 
-    return redirect(url_for("homepage"))
 
 @app.route("/post/<int:post_id>")
 def posts(post_id):
