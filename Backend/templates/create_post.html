@@ -42,9 +42,15 @@
             {% if current_user.is_authenticated %}
             <input type="text" id="post-text" placeholder="Write something..." />
             {% else %}
+
             <input type="text" id="name-text" placeholder="Enter your name: " />
             <input type="text" id="post-text" placeholder="Write something..." />
             {% endif %}
+
+                <input type="text" id="name-text" placeholder="Enter your name: " />
+                <input type="text" id="post-text" placeholder="Write something..." />
+            {%endif%}
+
             <button id="create-post">Create a Post!</button>
         </div>
     </div>
