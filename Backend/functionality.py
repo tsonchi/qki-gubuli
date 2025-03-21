@@ -84,7 +84,7 @@ def get_hotel_price_from_serpapi(hotel_name, city):
         match = re.search(r'(\d{1,5})\s?(лв|BGN|€|EUR)', snippet)
         if match:
             return f"{match.group(1)} {match.group(2)}"
-    return None  # Ако няма цена, връща None
+    return None  
 
 @app.get("/plan_route/")
 def plan_route(
