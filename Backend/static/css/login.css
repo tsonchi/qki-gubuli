@@ -60,6 +60,7 @@ nav {
 
 .nav a:hover {
     background-color: rgb(18, 17, 17);
+    border-radius: 5px;
 }
 .nav i{
     color: white;
@@ -330,8 +331,9 @@ iframe{
     color:#ffffff96;
 };
 
-.inputBox{
-    color:#ffffff96;
+input[name="submit"]{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    cursor: pointer;
 };
-
-

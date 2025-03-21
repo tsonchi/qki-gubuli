@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/posts.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c19c712794.js" crossorigin="anonymous"></script>
+    <title>Saitche</title>
+</head>
+<body>
+    <header class="header">
+        <nav>
+            <h1 id="title">Saitche</h1>
+            <ul class="nav">
+                <li><a href="{{ url_for('homepage') }}">Home</a></li>
+                <li><a href="{{ url_for('about_page') }}">About</a></li>
+                <li><a href="{{ url_for('contact_page') }}">Contact</a></li>
+                <li><a href="{{ url_for('search') }}">Service</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('logout') }}">Log out</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('register') }}">Sign up <i class="fa-solid fa-user"></i></a></li>
+                    <li><a href="{{ url_for('login') }}">Log in <i class="fa-solid fa-user"></i></a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="post-container">
+            {% for post in posts %}
+            <div class="post">
+                <div class="postheader">
+                    <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="User">
+                    <div class="post-user">
+                        <h3>{{ post.author.username if post.author else 'Anonymous' }}</h3>
+                        <p>{{ post.date_posted.strftime('%Y-%m-%d %H:%M') }}</p>
+                    </div>
+                </div>
+                <div class="postcontent">
+                    <p>{{ post.content }}</p>
+                    {% if post.image_file %}
+                        <img src="{{ url_for('static', filename='uploads/' + post.image_file) }}" alt="Post Image">
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="post-form">
+            {% if current_user.is_authenticated %}
+                <input type="text" id="post-text" placeholder="Write something..." />
+            {% else %}
+                <input type="text" id="name-text" placeholder="Enter your name: " />
+                <input type="text" id="post-text" placeholder="Write something..." />
+            {% endif %}
+            <button id="create-post">Create a Post!</button>
+        </div>
+    </div> 
+
+    <script>
+        document.getElementById("create-post").addEventListener("click", async function() {
+            let isAuthenticated = {{ current_user.is_authenticated | tojson | safe }};
+            let username = {{ current_user.username | tojson | safe }};
+            let postText = document.getElementById("post-text").value.trim();
+            let nameText = isAuthenticated ? username : document.getElementById("name-text").value.trim(); 
+        
+            if (!isAuthenticated && nameText === "") {
+                alert("Name cannot be empty!");
+                return;
+            }
+            if (postText === "") {
+                alert("Post cannot be empty!");
+                return;
+            }
+        
+            let newPost = {
+                author: nameText,
+                content: postText
+            };
+        
+            let response = await fetch("/posts", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newPost)
+            });
+        
+            if (response.ok) {
+                location.reload();  // Refresh the page to show the new post
+            } else {
+                alert("Error creating post!");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 from datetime import datetime
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import StringField, PasswordField, SubmitField, BooleanField,TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from Backend.Models import User
@@ -30,5 +31,6 @@ class LoginForm(FlaskForm):
     
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
+    image = FileField('Upload Image', validators=[FileRequired(),FileAllowed(['jpg','png','jpeg'])])
     content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Post')    
+    submit = SubmitField('Post')
