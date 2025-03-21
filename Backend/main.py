@@ -174,6 +174,7 @@ def create_post():
         print("Error creating post: " + str(e))
         return redirect(url_for('home'))
 
+    return redirect(url_for("home"))
 
 @app.route("/post/<int:post_id>")
 def posts(post_id):
