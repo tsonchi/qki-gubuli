@@ -47,7 +47,7 @@ def get_restaurant_ratings(location, lowest_rating, highest_rating):
     return restaurants
 
 
-def get_restaurants(city, lowest_rating, highest_rating):
+def get_restaurants_and_attractions(city, lowest_rating, highest_rating):
     coords = get_coordinates(city)
     if not coords:
         return {"restaurants": [], "attractions": []}
