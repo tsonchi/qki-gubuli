@@ -106,7 +106,7 @@ def contact_page():
 def search():
     return render_template('input.html')
 
-
+# Главна функция за планирането на ваканцията
 @app.route("/plan_route", methods=["GET", "POST"])
 def plan_route():
     if request.method == "POST":
@@ -116,8 +116,6 @@ def plan_route():
         budget = request.form.get("budget")
         lowest_rating = request.form.get("lowest_rating")
         highest_rating = request.form.get("highest_rating")
-
-        print(f"📌 Sending request to FastAPI with: city={city}, start_date={start_date}, end_date={end_date}")
 
         try:
             response = requests.get(FASTAPI_URL, params={
@@ -130,14 +128,11 @@ def plan_route():
             })
             response.raise_for_status()  
 
-            data = response.json()  
-            print(f"Received response from FastAPI: {data}")
+            data = response.json()
 
             if "error" in data:
                 flash(data["error"], "danger")
                 return redirect(url_for('plan_route'))
-            
-            print(f"🚀 Rendering data: {data['data']}")
 
             return render_template("plan_route.html", data=data["data"]) 
 
