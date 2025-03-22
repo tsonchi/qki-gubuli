@@ -143,7 +143,6 @@ def plan_route():
     return render_template("plan_route.html")
 
 @app.route('/create_post', methods=['POST', 'GET'])
-@login_required
 def create_post():
     content = request.form.get('content')
 
