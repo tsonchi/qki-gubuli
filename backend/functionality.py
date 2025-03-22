@@ -6,10 +6,9 @@ from geopy.geocoders import Nominatim
 
 app = FastAPI()
 
-OVERPASS_URL = "http://overpass-api.de/api/interpreter"
-SERPER_API_KEY = "79ba7fd9c4079b2af3cabf32a8d9bc2663856991"  # Замени с реалния API ключ
-SERPAPI_KEY = "30c90bb56b6894a50322c741e9583a7d00de9911eb6e2d70555ee14c98f54054"  # Замени с реалния API ключ
-
+OVERPASS_URL = "http://overpass-api.de/api/interpreter" # Aтракции и хотели
+SERPER_API_KEY = "92fa250229ab124510a0d89399f1aa4bc606dced"  # Извлича цени на хотели от Google
+SERPAPI_KEY = "30c90bb56b6894a50322c741e9583a7d00de9911eb6e2d70555ee14c98f54054"  # Намира ресторанти в Google Maps
 
 def get_coordinates(city: str):
     geolocator = Nominatim(user_agent="travel_planner")
@@ -35,7 +34,7 @@ def get_restaurant_ratings(location, lowest_rating, highest_rating):
         for place in data["local_results"]:
             rating = place.get("rating")
             if rating and (rating < lowest_rating or rating > highest_rating):
-                continue  # Пропускаме ресторанти извън зададените граници
+                continue 
 
             restaurants.append({
                 "name": place.get("title"),
@@ -55,7 +54,6 @@ def get_restaurants(city, lowest_rating, highest_rating):
 
     lat, lon = coords
 
-    # OpenStreetMap Query за атракции
     query = f"""
     [out:json];
     node["tourism"="attraction"](around:5000,{lat},{lon});
@@ -71,11 +69,10 @@ def get_restaurants(city, lowest_rating, highest_rating):
             if name:
                 attractions.append({"name": name, "lat": poi["lat"], "lon": poi["lon"]})
 
-    # Извличаме ресторанти с рейтинг в определения диапазон
     restaurants = get_restaurant_ratings(city, lowest_rating, highest_rating)
 
     return {
-        "restaurants": restaurants[:8],  # Ограничаваме до 8 резултата
+        "restaurants": restaurants[:8],  
         "attractions": attractions[:8]
     }
 
@@ -119,7 +116,6 @@ def get_hotel_price_from_serper(hotel_name, city):
 
     response_json = response.json()
 
-    # Търсим цената в резултатите
     for result in response_json.get("organic", []):
         snippet = result.get("snippet", "")
         match = re.search(r'(\d{1,5})\s?(лв|BGN|€|EUR)', snippet)
@@ -171,7 +167,7 @@ def plan_route(
     
     lat, lon = coords
 
-    places = get_restaurants(city, lowest_rating, highest_rating)
+    places = get_restaurants_and_attractions(city, lowest_rating, highest_rating)
     hotels = get_hotels_from_osm(lat, lon)
 
     filtered_hotels = []
