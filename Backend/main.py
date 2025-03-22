@@ -1,9 +1,15 @@
-from flask import Flask
+from flask import Flask, render_template, url_for, flash, redirect, request, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask import render_template, url_for, flash, redirect, request, abort
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, current_user, logout_user,login_required
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed, FileRequired
+from wtforms import StringField, PasswordField, SubmitField, BooleanField,TextAreaField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from flask_login import UserMixin
+from datetime import datetime
+import requests
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
@@ -20,11 +26,6 @@ def home():
     post=Posts.query.all()
     return render_template('index.html',post=posts)
 
-
-from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms import StringField, PasswordField, SubmitField, BooleanField,TextAreaField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',validators=[DataRequired(),Length(min=2,max=20)])
@@ -105,7 +106,6 @@ def contact_page():
 def search():
     return render_template('input.html')
 
-import requests
 
 @app.route("/plan_route", methods=["GET", "POST"])
 def plan_route():
@@ -147,10 +147,6 @@ def plan_route():
 
     return render_template("plan_route.html")
 
-
-
-from flask import request, flash, redirect, url_for
-
 @app.route('/create_post', methods=['POST', 'GET'])
 @login_required
 def create_post():
@@ -182,8 +178,6 @@ def posts(post_id):
     post = Posts.query.get_or_404(post_id)
     return render_template('posts.html', title=post.title, post=post)
 
-from flask_login import UserMixin
-from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
