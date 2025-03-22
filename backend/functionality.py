@@ -12,14 +12,12 @@ SERPAPI_KEY = "30c90bb56b6894a50322c741e9583a7d00de9911eb6e2d70555ee14c98f54054"
 
 
 def get_coordinates(city: str):
-    """Взима GPS координати за града чрез OpenStreetMap."""
     geolocator = Nominatim(user_agent="travel_planner")
     location = geolocator.geocode(f"{city}, Bulgaria")
     return (location.latitude, location.longitude) if location else None
 
 
 def get_restaurant_ratings(location, lowest_rating, highest_rating):
-    """Извлича рейтингите на ресторанти чрез SerpAPI и филтрира според подадените граници."""
     url = "https://serpapi.com/search.json"
     params = {
         "engine": "google_maps",
@@ -51,7 +49,6 @@ def get_restaurant_ratings(location, lowest_rating, highest_rating):
 
 
 def get_restaurants(city, lowest_rating, highest_rating):
-    """Извлича атракции и ресторанти с ограничение по рейтинг."""
     coords = get_coordinates(city)
     if not coords:
         return {"restaurants": [], "attractions": []}
@@ -84,7 +81,6 @@ def get_restaurants(city, lowest_rating, highest_rating):
 
 
 def get_hotels_from_osm(lat, lon):
-    """Извлича хотели от OpenStreetMap."""
     query = f"""
     [out:json];
     node["tourism"="hotel"](around:10000,{lat},{lon});
@@ -105,7 +101,6 @@ def get_hotels_from_osm(lat, lon):
 
 
 def get_hotel_price_from_serper(hotel_name, city):
-    """Извлича цена за хотел от Google чрез Serper API."""
     url = "https://google.serper.dev/search"
     headers = {
         "X-API-KEY": SERPER_API_KEY,
@@ -135,7 +130,6 @@ def get_hotel_price_from_serper(hotel_name, city):
 
 
 def convert_price_to_bgn(price):
-    """Конвертира цената в BGN, ако е в евро."""
     match = re.search(r'(\d+)\s?(лв|BGN|€|EUR)', price)
     if match:
         amount = int(match.group(1))
@@ -147,7 +141,6 @@ def convert_price_to_bgn(price):
 
 
 def calculate_total_hotel_cost(price_per_night, start_date, end_date):
-    """Изчислява крайната цена за престоя в хотела."""
     num_nights = (end_date - start_date).days
     return price_per_night * num_nights if num_nights > 0 else 0
 
@@ -161,7 +154,6 @@ def plan_route(
         start_date: str = Query(..., description="Начална дата (YYYY-MM-DD)"),
         end_date: str = Query(..., description="Крайна дата (YYYY-MM-DD)")
 ):
-    """Генерира маршрут с атракции, ресторанти и хотели, включително филтър по рейтинг на ресторанти."""
     try:
         start = datetime.strptime(start_date, "%Y-%m-%d")
         end = datetime.strptime(end_date, "%Y-%m-%d")
