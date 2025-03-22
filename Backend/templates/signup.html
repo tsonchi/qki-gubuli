@@ -52,6 +52,9 @@
                     {{ form.email.label }}
                     {{ form.email(class="form-control") }}
                     <span></span>
+                    {% for error in form.email.errors %}
+                        <p class="text-danger">{{ error }}</p>
+                    {% endfor %}
                 </div>
                 <div class="inputBox">
                     {{ form.password.label }}

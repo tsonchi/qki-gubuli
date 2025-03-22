@@ -10,6 +10,7 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from flask_login import UserMixin
 from datetime import datetime
 import requests
+from wtforms.validators import ValidationError
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
@@ -26,23 +27,31 @@ def home():
     post=Posts.query.all()
     return render_template('index.html',post=posts)
 
+import requests
+from wtforms.validators import ValidationError
 
-class RegistrationForm(FlaskForm):
-    username = StringField('Username',validators=[DataRequired(),Length(min=2,max=20)])
-    email = StringField('Email',validators=[DataRequired(),Email()])
-    password = PasswordField('Password',validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm password',validators=[DataRequired(),EqualTo('password')])
-    submit = SubmitField('Sign up')
+def validate_email_abstract(email):
+    API_KEY = "a3862ff2b4b2f3940590a3ee35aff502914e4c90"  # Замени с реалния API ключ
+    url = f"https://emailvalidation.abstractapi.com/v1/?api_key={API_KEY}&email={email}"
+
     
-    def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
-        if user:
-            raise ValidationError('That username is already taken. Please enter a new one.')
-        
+class RegistrationForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Sign up')
+
     def validate_email(self, email):
+        # Проверка дали имейлът вече съществува в базата
         user = User.query.filter_by(email=email.data).first()
         if user:
-            raise ValidationError('That email is taken. Please choose a different one.')
+            raise ValidationError('That email is already taken. Please choose a different one.')
+
+        # Проверяваме дали имейлът е валиден чрез AbstractAPI
+        validate_email_abstract(email)
+
+
         
         
 class LoginForm(FlaskForm):
