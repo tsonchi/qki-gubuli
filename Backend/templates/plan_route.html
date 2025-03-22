@@ -46,7 +46,7 @@
                 <li id="rest">Restaurants: 
                     <ul>
                     {% for restaurant in item.places.restaurants %}
-                        <li id = "restaurant">{{ restaurant.name }}</li>
+                        <li id = "restaurant">{{ restaurant.name }} - ⭐{{ restaurant.rating }}</li>
                     {% endfor %}
                     </ul>
                 </li>
