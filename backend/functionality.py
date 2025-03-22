@@ -6,20 +6,17 @@ from geopy.geocoders import Nominatim
 
 app = FastAPI()
 
-OVERPASS_URL = "http://overpass-api.de/api/interpreter"
-SERPER_API_KEY = "79ba7fd9c4079b2af3cabf32a8d9bc2663856991"  # Замени с реалния API ключ
-SERPAPI_KEY = "30c90bb56b6894a50322c741e9583a7d00de9911eb6e2d70555ee14c98f54054"  # Замени с реалния API ключ
-
+OVERPASS_URL = "http://overpass-api.de/api/interpreter" # Aтракции и хотели
+SERPER_API_KEY = "92fa250229ab124510a0d89399f1aa4bc606dced"  # Извлича цени на хотели от Google
+SERPAPI_KEY = "30c90bb56b6894a50322c741e9583a7d00de9911eb6e2d70555ee14c98f54054"  # Намира ресторанти в Google Maps
 
 def get_coordinates(city: str):
-    """Взима GPS координати за града чрез OpenStreetMap."""
     geolocator = Nominatim(user_agent="travel_planner")
     location = geolocator.geocode(f"{city}, Bulgaria")
     return (location.latitude, location.longitude) if location else None
 
 
 def get_restaurant_ratings(location, lowest_rating, highest_rating):
-    """Извлича рейтингите на ресторанти чрез SerpAPI и филтрира според подадените граници."""
     url = "https://serpapi.com/search.json"
     params = {
         "engine": "google_maps",
@@ -37,7 +34,7 @@ def get_restaurant_ratings(location, lowest_rating, highest_rating):
         for place in data["local_results"]:
             rating = place.get("rating")
             if rating and (rating < lowest_rating or rating > highest_rating):
-                continue  # Пропускаме ресторанти извън зададените граници
+                continue 
 
             restaurants.append({
                 "name": place.get("title"),
@@ -50,15 +47,13 @@ def get_restaurant_ratings(location, lowest_rating, highest_rating):
     return restaurants
 
 
-def get_restaurants(city, lowest_rating, highest_rating):
-    """Извлича атракции и ресторанти с ограничение по рейтинг."""
+def get_restaurants_and_attractions(city, lowest_rating, highest_rating):
     coords = get_coordinates(city)
     if not coords:
         return {"restaurants": [], "attractions": []}
 
     lat, lon = coords
 
-    # OpenStreetMap Query за атракции
     query = f"""
     [out:json];
     node["tourism"="attraction"](around:5000,{lat},{lon});
@@ -74,17 +69,15 @@ def get_restaurants(city, lowest_rating, highest_rating):
             if name:
                 attractions.append({"name": name, "lat": poi["lat"], "lon": poi["lon"]})
 
-    # Извличаме ресторанти с рейтинг в определения диапазон
     restaurants = get_restaurant_ratings(city, lowest_rating, highest_rating)
 
     return {
-        "restaurants": restaurants[:8],  # Ограничаваме до 8 резултата
+        "restaurants": restaurants[:8],  
         "attractions": attractions[:8]
     }
 
 
 def get_hotels_from_osm(lat, lon):
-    """Извлича хотели от OpenStreetMap."""
     query = f"""
     [out:json];
     node["tourism"="hotel"](around:10000,{lat},{lon});
@@ -105,7 +98,6 @@ def get_hotels_from_osm(lat, lon):
 
 
 def get_hotel_price_from_serper(hotel_name, city):
-    """Извлича цена за хотел от Google чрез Serper API."""
     url = "https://google.serper.dev/search"
     headers = {
         "X-API-KEY": SERPER_API_KEY,
@@ -124,7 +116,6 @@ def get_hotel_price_from_serper(hotel_name, city):
 
     response_json = response.json()
 
-    # Търсим цената в резултатите
     for result in response_json.get("organic", []):
         snippet = result.get("snippet", "")
         match = re.search(r'(\d{1,5})\s?(лв|BGN|€|EUR)', snippet)
@@ -135,7 +126,6 @@ def get_hotel_price_from_serper(hotel_name, city):
 
 
 def convert_price_to_bgn(price):
-    """Конвертира цената в BGN, ако е в евро."""
     match = re.search(r'(\d+)\s?(лв|BGN|€|EUR)', price)
     if match:
         amount = int(match.group(1))
@@ -147,7 +137,6 @@ def convert_price_to_bgn(price):
 
 
 def calculate_total_hotel_cost(price_per_night, start_date, end_date):
-    """Изчислява крайната цена за престоя в хотела."""
     num_nights = (end_date - start_date).days
     return price_per_night * num_nights if num_nights > 0 else 0
 
@@ -161,7 +150,6 @@ def plan_route(
         start_date: str = Query(..., description="Начална дата (YYYY-MM-DD)"),
         end_date: str = Query(..., description="Крайна дата (YYYY-MM-DD)")
 ):
-    """Генерира маршрут с атракции, ресторанти и хотели, включително филтър по рейтинг на ресторанти."""
     try:
         start = datetime.strptime(start_date, "%Y-%m-%d")
         end = datetime.strptime(end_date, "%Y-%m-%d")
@@ -179,7 +167,7 @@ def plan_route(
     
     lat, lon = coords
 
-    places = get_restaurants(city, lowest_rating, highest_rating)
+    places = get_restaurants_and_attractions(city, lowest_rating, highest_rating)
     hotels = get_hotels_from_osm(lat, lon)
 
     filtered_hotels = []
